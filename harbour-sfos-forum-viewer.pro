@@ -65,4 +65,7 @@ TRANSLATIONS += \
 dbussvc.files = dbus-1/services/*.service
 dbussvc.path = /usr/share/dbus-1/services/
 
-INSTALLS += dbussvc
+opendesktop.files = harbour-sfos-forum-viewer-openUrl.desktop
+opendesktop.path = /usr/share/applications
+
+INSTALLS += dbussvc opendesktop
