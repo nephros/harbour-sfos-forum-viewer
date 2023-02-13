@@ -27,6 +27,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import Nemo.DBus 2.0
 import "pages"
 
 ApplicationWindow
@@ -138,6 +139,27 @@ ApplicationWindow
             }
         }
         xhr.send();
+    }
+
+    DBusAdaptor {
+        id: dbus
+
+        bus: DBus.SessionBus
+        service: 'harbour.sfos-forum-viewer'
+        iface: 'harbour-sfos-forum-viewer'
+        path: '/'
+
+        xml: '<interface name="">
+               <method name="openUrl">
+                 <arg name="url" type="s" direction="in">
+                   <doc:doc><doc:summary>url to open</doc:summary></doc:doc>
+                 </arg>
+               </method>
+             </interface>'
+
+        function openUrl(u) {
+            console.log("openUrl called via DBus:" + u)
+        }
     }
 
     Component.onCompleted: {
