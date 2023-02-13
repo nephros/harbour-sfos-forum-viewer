@@ -5,7 +5,7 @@ Name=SFOS Forum
 MimeType=x-scheme-handler/sfos-forum;
 X-Maemo-Service=harbour.sfos-forum-viewer
 X-Maemo-Object-Path=/
-X-Maemo-Method=harbour-sfos-forum-viewer.openUrl
+X-Maemo-Method=harbour.sfos-forum-viewer.openUrl
 
 NotShowIn=X-MeeGo;
 Hidden=true

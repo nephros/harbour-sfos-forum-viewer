@@ -146,7 +146,7 @@ ApplicationWindow
 
         bus: DBus.SessionBus
         service: 'harbour.sfos-forum-viewer'
-        iface: 'harbour-sfos-forum-viewer'
+        iface: 'harbour.sfos-forum-viewer'
         path: '/'
 
         xml: '<interface name="">
@@ -160,9 +160,14 @@ ApplicationWindow
         function openUrl(u) {
             console.log("openUrl called via DBus:" + u)
         }
+        Component.onCompleted: {
+            console.info("Initialized D-Bus listener as (s/p/i):", service, path, iface)
+        }
     }
 
     Component.onCompleted: {
+        console.info("Intialized", Qt.application.name, "version", Qt.application.version, "by", Qt.application.organization );
+        console.debug("Parameters: " + Qt.application.arguments.join(" "))
         categories.fetch();
         fetchLatestPosts();
     }
