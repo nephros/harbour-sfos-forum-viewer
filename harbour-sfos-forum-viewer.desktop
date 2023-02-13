@@ -6,9 +6,9 @@ Exec=sailfish-qml harbour-sfos-forum-viewer
 Name=SFOS Forum
 
 MimeType=x-scheme-handler/sfos-forum;x-url-handler/forum.sailfishos.org;
-X-Maemo-Service=harbour-sfos-forum-viewer
-X-Maemo-Object-Path=/
-X-Maemo-Method=harbour-sfos-forum-viewer.openUrl
+X-Maemo-Service=org.szopin.sfos-forum-viewer
+X-Maemo-Object-Path=/org/szopin/sfos-forum-viewer
+X-Maemo-Method=org.szopin.sfos-forum-viewer.openUrl
 
 # translation example:
 # your app name in German locale (de)
@@ -24,3 +24,5 @@ Name[ru]=Форум SFOS
 
 [X-Sailjail]
 Permissions=Internet;WebView;Secrets;UserDirs;MediaIndexing;RemovableMedia
+OrganizationName=org.szopin
+ApplicationName=sfos-forum-viewer

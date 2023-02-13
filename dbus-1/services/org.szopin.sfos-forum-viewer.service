@@ -1,3 +1,3 @@
 [D-BUS Service]
-Name=harbour.sfos-forum-viewer
+Name=org.szopin.sfos-forum-viewer
 Exec=invoker --type=silica-qt5 --id=harbour-sfos-forum-viewer --single-instance sailfish-qml harbour-sfos-forum-viewer

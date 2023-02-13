@@ -145,9 +145,9 @@ ApplicationWindow
         id: dbus
 
         bus: DBus.SessionBus
-        service: 'harbour-sfos-forum-viewer'
-        iface: 'harbour-sfos-forum-viewer'
-        path: '/'
+        service: 'org.szopin.sfos-forum-viewer'
+        iface:   'org.szopin.sfos-forum-viewer'
+        path:    '/org/szopin/sfos-forum-viewer'
 
         xml: '<interface name="">
                <method name="openUrl">
