@@ -155,10 +155,24 @@ ApplicationWindow
                    <doc:doc><doc:summary>url to open</doc:summary></doc:doc>
                  </arg>
                </method>
+               <method name="newPost">
+                 <arg name="topic" type="s" direction="in">
+                   <doc:doc><doc:summary>the name of the new post</doc:summary></doc:doc>
+                 </arg>
+                 <arg name="group" type="i" direction="in">
+                   <doc:doc><doc:summary>the group ID of the topic to post to</doc:summary></doc:doc>
+                 </arg>
+                 <arg name="text" type="s" direction="in">
+                   <doc:doc><doc:summary>the post contents</doc:summary></doc:doc>
+                 </arg>
+               </method>
              </interface>'
 
         function openUrl(u) {
             console.log("openUrl called via DBus:" + u)
+        }
+        function newPost(topic, group, content) {
+            console.log("newPost called via DBus:", topic, group, content)
         }
         Component.onCompleted: {
             console.info("Registered D-Bus interface as (s/p/i):", service, path, iface)
