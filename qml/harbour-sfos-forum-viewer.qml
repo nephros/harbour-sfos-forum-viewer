@@ -145,8 +145,8 @@ ApplicationWindow
         id: dbus
 
         bus: DBus.SessionBus
-        service: 'harbour.sfos-forum-viewer'
-        iface: 'harbour.sfos-forum-viewer'
+        service: 'harbour-sfos-forum-viewer'
+        iface: 'harbour-sfos-forum-viewer'
         path: '/'
 
         xml: '<interface name="">
@@ -161,7 +161,7 @@ ApplicationWindow
             console.log("openUrl called via DBus:" + u)
         }
         Component.onCompleted: {
-            console.info("Initialized D-Bus listener as (s/p/i):", service, path, iface)
+            console.info("Registered D-Bus interface as (s/p/i):", service, path, iface)
         }
     }
 

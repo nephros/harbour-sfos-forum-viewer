@@ -4,6 +4,12 @@ X-Nemo-Application-Type=silica-qt5
 Icon=harbour-sfos-forum-viewer
 Exec=sailfish-qml harbour-sfos-forum-viewer
 Name=SFOS Forum
+
+MimeType=x-scheme-handler/sfos-forum;x-url-handler/forum.sailfishos.org;
+X-Maemo-Service=harbour-sfos-forum-viewer
+X-Maemo-Object-Path=/
+X-Maemo-Method=harbour-sfos-forum-viewer.openUrl
+
 # translation example:
 # your app name in German locale (de)
 #
