@@ -72,7 +72,8 @@ desktop-file-install --delete-original       \
 %defattr(-,root,root,-)
 %defattr(0644,root,root,-)
 %{_datadir}/%{name}
-%{_datadir}/applications/%{name}.desktop
+%{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_datadir}/dbus-1/services/*.service
 # >> files
 # << files
