@@ -39,7 +39,9 @@ DISTFILES += qml/harbour-sfos-forum-viewer.qml \
     rpm/harbour-sfos-forum-viewer.spec \
     rpm/harbour-sfos-forum-viewer.yaml \
     translations/*.ts \
-    harbour-sfos-forum-viewer.desktop
+    harbour-sfos-forum-viewer.desktop \
+    harbour-sfos-forum-viewer-openUrl.desktop \
+    dbus-1/services/harbour.sfos-forum-viewer.service
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 
@@ -60,3 +62,7 @@ TRANSLATIONS += \
     translations/harbour-sfos-forum-viewer-sv.ts \
     translations/harbour-sfos-forum-viewer-zh_CN.ts
 
+dbussvc.files = dbus-1/services/*.service
+dbussvc.path = /usr/share/dbus-1/services/
+
+INSTALLS += dbussvc
