@@ -7,6 +7,8 @@ import QtWebKit.experimental 1.0
 
 Dialog {id: loginDialog
 
+    allowedOrientations: Orientation.All
+
     property var payload
     property string pubkey
     property string encoded: encodeURIComponent(pubkey)
