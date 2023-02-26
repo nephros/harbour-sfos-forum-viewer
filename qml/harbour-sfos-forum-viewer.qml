@@ -175,7 +175,7 @@ ApplicationWindow
             console.log("newPost called via DBus:", topic, group, content)
         }
         Component.onCompleted: {
-            console.info("Registered D-Bus interface as (s/p/i):", service, path, iface)
+            console.info("Trying to register D-Bus interface as (s/p/i):", service, path, iface)
         }
     }
 
