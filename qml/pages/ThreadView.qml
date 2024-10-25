@@ -34,6 +34,8 @@ import Nemo.Configuration 1.0
 Page {
     id: commentpage
     allowedOrientations: Orientation.All
+    property bool menusEnabled: true
+
     property int likes
     property int post_id: -1
     property int highest_post_number
@@ -423,7 +425,7 @@ Page {
             }
         }
         PushUpMenu{
-            visible: loggedin.value != "-1" && !tclosed
+            visible: commentpage.menusEnabled && loggedin.value != "-1" && !tclosed
             MenuItem {
                 text: qsTr("Post reply")
                 visible: loggedin.value != "-1" && !tclosed
@@ -445,6 +447,7 @@ Page {
             visible: !spam
             contentHeight: !spam ? delegateCol.height + Theme.paddingLarge : 0
             anchors.horizontalCenter: parent.horizontalCenter
+            onMenuOpenChanged: commentpage.menusEnabled = !menuOpen
 
             Column {
                 id: delegateCol
