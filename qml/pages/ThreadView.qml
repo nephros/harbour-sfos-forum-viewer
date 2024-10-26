@@ -331,7 +331,7 @@ Page {
                                   cooked_hidden: cooked_hidden,
                                   accepted_answer: post.accepted_answer,
                                   has_polls: has_polls,
-                                  polldata: polldata
+                                  polldata: polldata,
                                   stafftag: stafftag
                               });
             last_post = post.post_number;
