@@ -277,13 +277,15 @@ Page {
                 if (has_polls) console.warn("Detected a comment with a poll. This is currently not supported.")
             } else {
                 // reorganize the poll data into an array of objects, so we only
-                // have to result with the JSObject->ListModel conversion once:
+                // have to deal with the JSObject->ListModel conversion once:
                 // See also: Flow { id: pollsItem } below
                 for (var pi = 0; pi<has_polls; ++pi) {
                     var pd = { "poll": {}, "votes": {} }
                     pd["poll"] = post.polls[pi]
-                    if (post.polls_votes[post.polls[pi].name]) {
-                        pd["votes"] = { "list": post.polls_votes[post.polls[pi].name] }
+                    if (post.polls_votes) {
+                        if (post.polls_votes[post.polls[pi].name]) {
+                            pd["votes"] = { "list": post.polls_votes[post.polls[pi].name] }
+                        }
                     }
                     polldata.push(pd)
                 }
