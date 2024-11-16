@@ -30,6 +30,7 @@ import QtGraphicalEffects 1.0
 import Sailfish.Silica 1.0
 import Nemo.Configuration 1.0
 
+
 Page {
     id: commentpage
     allowedOrientations: Orientation.All
@@ -49,17 +50,22 @@ Page {
     property int last_post: 0
     property int posts_count
     property bool tclosed
+    property string stafftag: ""
     property string tags
     property string avatar
-    property bool cooked_hidden
     property bool acted
     property bool can_act
     property bool can_undo
     property bool accepted_answer
+    property bool busy: true
+    property int xi
+    property int yi
+    property int zi
 
     function getRedirect(link){
         var xhr = new XMLHttpRequest;
         xhr.open("GET", link);
+        if (loggedin.value != "-1") xhr.setRequestHeader("User-Api-Key", loggedin.value);
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 var xhrlocation = xhr.getResponseHeader("location");
@@ -203,6 +209,10 @@ Page {
         }
         xhr.send(JSON.stringify(json));
     }
+    function refresh(){
+        list.model.clear();
+        commentpage.getcomments();
+    }
     function del(postid, index){
         var xhr = new XMLHttpRequest;
         xhr.open("DELETE", "https://forum.sailfishos.org/posts/" + postid);
@@ -241,6 +251,21 @@ Page {
         }
         xhr.send(JSON.stringify(json));
     }
+    ConfigurationGroup {
+        id: filterlist
+        path: "/apps/harbour-sfos-forum-viewer/filterlist"
+    }
+    WorkerScript {
+        id: worker
+        source: "worker.js"
+        onMessage: {
+            var data2 = JSON.parse(messageObject.data);
+            appendPosts(data2.post_stream.posts)
+            busy = !messageObject.last
+
+            if (messageObject.last) busy = false// list.positionViewAtIndex(post_number - 1, ListView.Beginning);
+        }
+    }
 
     function appendPosts(posts) {
         var posts_length = posts.length;
@@ -248,6 +273,34 @@ Page {
         for (var i=0;i<posts_length;i++) {
             var post = posts[i];
             var yours =  (loggedin.value == "-1") ? false : post.yours
+            var spam = false
+            var cooked_hidden = false
+            if (post.staff){
+                stafftag = " - Jolla"
+            } else {
+                stafftag = ""
+            }
+            var has_polls = !!post.polls  ? post.polls.length : 0
+            var polldata = []
+
+                // reorganize the poll data into an array of objects, so we only
+                // have to result with the JSObject->ListModel conversion once:
+                // See also: Flow { id: pollsItem } below
+                for (var pi = 0; pi<has_polls; ++pi) {
+                    var pd = { "poll": {}, "votes": {} }
+                    pd["poll"] = post.polls[pi]
+                    // polls_vote is only in the data if the user has voted already
+                    if (!!post["polls_votes"]) {
+                        if (post.polls_votes[post.polls[pi].name]) {
+                            pd["votes"] = { "list": post.polls_votes[post.polls[pi].name] }
+                        }
+                        } else {
+                            pd["votes"] = { "list": [] }
+                        }
+                 //   }
+                    polldata.push(pd)
+                }
+
             if (post.actions_summary.length > 0){
                 var action = post.actions_summary[0];
                 likes = (loggedin.value == "-1") ? ((action && action.id === 2)
@@ -257,6 +310,8 @@ Page {
                 can_undo = (loggedin.value == "-1") ? false : action && action.id === 2 && action.can_undo
                                                       ? action.can_undo : false
                 acted = loggedin.value !== "-1" ? (action.id === 2 && action.acted ? action.acted : false) : false;
+                cooked_hidden = post.cooked_hidden ? post.cooked_hidden : false
+                spam = (filterlist.value(post.user_id, -1)  < 0) ? false : true
             }
             list.model.append({
                                   cooked: post.cooked,
@@ -272,11 +327,16 @@ Page {
                                   created_at: post.created_at,
                                   version: post.version,
                                   postid: post.id,
+                                  user_id: post.user_id,
+                                  spam: spam,
                                   post_number: post.post_number,
                                   reply_to: post.reply_to_post_number,
                                   last_postid: last_post,
-                                  cooked_hidden: post.cooked_hidden,
-                                  accepted_answer: post.accepted_answer
+                                  cooked_hidden: cooked_hidden,
+                                  accepted_answer: post.accepted_answer,
+                                  stafftag: stafftag,
+                                  has_polls: has_polls,
+                                  polldata: polldata
                               });
             last_post = post.post_number;
         }
@@ -289,59 +349,58 @@ Page {
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 var data = JSON.parse(xhr.responseText);
-                if(data.tags){
-                    for(var t=0;t<data.tags.length;t++){
-                        tags = tags + data.tags[t] + " "
-                    }
-                }
+                if (data.tags) tags = data.tags.join(" ");
                 tclosed = data.closed;
                 if (aTitle == "") aTitle = data.title;
                 posts_count = data.posts_count;
                 var post_stream = data.post_stream;
-                if (posts_count >= 20 && posts_count <= 400){
-                    var stream = post_stream.stream;
-                    for(var j=20;j<posts_count;j++)
-                        loadmore += stream[j] + "&post_ids[]="
-                    console.log("1")
-                } else {
-                    var stream = post_stream.stream;
-                    for(var k=20;k<400;k++)
-                        loadmore += stream[k] + "&post_ids[]="
-                    console.log("2")
-                    for(var l=400;l<posts_count;l++)
-                        loadmore2 += stream[l] + "&post_ids[]="
-                    console.log("3")
-                }
-                var xhr2 = new XMLHttpRequest;
-                xhr2.open("GET", loadmore);
-                if (loggedin.value != "-1") xhr2.setRequestHeader("User-Api-Key", loggedin.value);
-
-                xhr2.onreadystatechange = function() {
-                    if (xhr2.readyState === XMLHttpRequest.DONE) {
-                        var xhr3 = new XMLHttpRequest;
-                        xhr3.open("GET", loadmore2);
-                        if (loggedin.value != "-1") xhr3.setRequestHeader("User-Api-Key", loggedin.value);
-
-                        xhr3.onreadystatechange = function() {
-                            if (xhr3.readyState === XMLHttpRequest.DONE) {
-                                list.model.clear();
-                                appendPosts(post_stream.posts);
-                                var data2 = JSON.parse(xhr2.responseText);
-                                appendPosts(data2.post_stream.posts)
-                                var data3 = JSON.parse(xhr3.responseText);
-                                appendPosts(data3.post_stream.posts)
-                            }
-
+                list.model.clear();
+                appendPosts(post_stream.posts);
+                var stream = post_stream.stream;
+                if (posts_count >= 20){
+                    xi = Math.floor((posts_count - 20) / 400)
+                    yi = (posts_count - 20) % 400
+                    for( zi = 0;zi<xi;zi++){
+                        loadmore =  source + "/posts.json?post_ids[]="
+                        for (var v = (20 + (zi * 400)); v < (20 +( (zi+1)*400));v++){
+                            loadmore += stream[v] + "&post_ids[]="
                         }
-                        xhr3.send();
+                        busy = true
 
+                        var msg = {
+                            'loadmore': loadmore,
+                            'login': loggedin.value,
+                            'last': false
+                        };
+
+                        worker.sendMessage(msg)
                     }
+                } else {
+                    busy = false
                 }
-                xhr2.send();
 
+                if( zi == xi && posts_count >= 20) {
+                    busy = true
+                    loadmore =  source + "/posts.json?post_ids[]="
+                    for(yi<posts_count - (zi*400);yi>0;yi--){
+                        loadmore += stream[posts_count - yi] + "&post_ids[]="
+                    }
 
+                    var msg = {
+                        'loadmore': loadmore,
+                        'login': loggedin.value,
+                        'last': true
+                    };
+                    worker.sendMessage(msg)
+
+                }
             }
+
+
         }
+
+
+
         xhr.send();
     }
     ConfigurationValue {
@@ -400,16 +459,18 @@ Page {
 
         BusyIndicator {
             id: vplaceholder
-            running: commodel.count == 0
+            running: busy //commodel.count == 0
             anchors.centerIn: parent
             size: BusyIndicatorSize.Large
         }
 
         model: ListModel { id: commodel}
         delegate: ListItem {
+            property int postindex: index
             enabled: menu.hasContent
             width: parent.width
-            contentHeight: delegateCol.height + Theme.paddingLarge
+            visible: !spam
+            contentHeight: !spam ? delegateCol.height + Theme.paddingLarge : 0
             anchors.horizontalCenter: parent.horizontalCenter
 
             Column {
@@ -459,7 +520,7 @@ Page {
                             id: mainMetadata
                             text: loggedin.value != "-1" ? "<style>" +
                                                            "a { color: %1 }".arg(Theme.highlightColor) +
-                                                           "</style>" + "<a href=\"https://forum.sailfishos.org/u/\"" + username + "/card.json\">" + username + "</a>" : username
+                                                           "</style>" + "<a href=\"https://forum.sailfishos.org/u/\"" + username + "/card.json\">" + username + stafftag + "</a>" : username + stafftag
                             onLinkActivated: pageStack.push("UserCard.qml", {username: username, loggedin: loggedin.value});
                             textFormat: Text.RichText
                             truncationMode: TruncationMode.Fade
@@ -525,10 +586,46 @@ Page {
                         if (!link1 && /^https:\/\/forum.sailfishos.org\/t\/[\w-]+?\/?/.exec(link)){
                             getRedirect(link);
                         } else if ( !link1){
+                            if (link.indexOf("/") === 0)
+                                link = "https://forum.sailfishos.org" + link
                             pageStack.push("OpenLink.qml", {link: link});
 
                         }  else {
-                            pageStack.push("ThreadView.qml", { "topicid": link1[2], "post_number": link1[3] });
+                            var post_number = link1[3] ? link1[3] : -1
+                            pageStack.push("ThreadView.qml", { "topicid": link1[2], "post_number": post_number });
+                        }
+                    }
+                }
+                Flow { id: pollsItem
+                    visible: has_polls
+                    property int cols: 3
+                    width: parent.width
+                    Label { id: pollHeader
+                        width: parent.width
+                        text: (has_polls > 1 )
+                            ? qsTr("This post contains polls.")
+                            : qsTr("This post contains a poll.")
+                            + " " + qsTr("Click to view and vote:")
+                        font.pixelSize: Theme.fontSizeSmall
+                        color: Theme.highlightColor
+                    }
+                    Repeater {
+                        model: has_polls
+                        delegate: ValueButton { id: pollButt
+                            property int pollindex: index
+                            onClicked: {
+                                const pd = polldata.get(pollindex)
+                                console.debug("Opening poll no", pollindex, "for post", postid, ", data:", JSON.stringify(pd,null,2))
+                                pageStack.push("PollView.qml",
+                                    { "key": loggedin.value, "postid": postid,
+                                      "polldata": pd["poll"],
+                                      "submitted_votes": pd["votes"]["list"]
+                                    }
+                                );
+                            }
+                            label: qsTr("Poll")
+                            value: '#' + Number(pollindex + 1)
+                            width: Math.floor(pollsItem.width/pollsItem.cols)
                         }
                     }
                 }
@@ -538,6 +635,10 @@ Page {
                 MenuItem{
                     text: qsTr("Copy to clipboard");
                     onClicked: getraw(postid, 1);
+                }
+                MenuItem {
+                    text: qsTr("Copy link to clipboard")
+                    onClicked: Clipboard.text = source + "/" + post_number
                 }
 
                 MenuItem {
@@ -586,12 +687,23 @@ Page {
                     text: qsTr("Delete")
                     onClicked: del(postid, index);
                 }
+                MenuItem { text: qsTr("Filter user")
+
+                    onClicked: {
+                        //         getusername(user_id);
+                        filterlist.setValue(user_id, username);
+                        filterlist.setValue("set", 1);
+                    }
+                }
 
             }
         }
 
         Component.onCompleted: commentpage.getcomments();
-        onCountChanged: {
+
+    }
+    onBusyChanged: {
+        if(busy == false){
             if (post_number < 0) return;
             var comment;
 
@@ -600,9 +712,9 @@ Page {
                     comment = list.model.get(j);
                     if (comment && comment.post_number === post_number) {
                         if (highest_post_number){
-                            positionViewAtIndex(j + 1, ListView.Beginning);
+                            list.positionViewAtIndex(j + 1, ListView.Beginning);
                         } else {
-                            positionViewAtIndex(j, ListView.Beginning);
+                            list.positionViewAtIndex(j, ListView.Beginning);
                         }
                     }
                 }
@@ -610,10 +722,12 @@ Page {
                 for(var i=post_number - (highest_post_number - posts_count) - 1;i<=post_number;i++){
                     comment = list.model.get(i)
                     if (post_id && comment && comment.postid === post_id){
-                        positionViewAtIndex(i, ListView.Beginning);
+                        list.positionViewAtIndex(i, ListView.Beginning);
                     }
                 }
             }
+
+
         }
     }
 }

@@ -28,6 +28,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Nemo.DBus 2.0
+import Nemo.Configuration 1.0
 import "pages"
 
 ApplicationWindow
@@ -39,14 +40,28 @@ ApplicationWindow
     // ================================
     // ATTENTION: UPDATE BEFORE RELEASE
     // --------------------------------
-    readonly property string appVersion: "1.7.1"
+    readonly property string appVersion: "1.12.1"
     // ================================
 
     property bool fetching: false
+    property string login
+    property bool checkemb
     property var latest: ListModel{id: latest}
     readonly property string source: "https://forum.sailfishos.org/"
     //: date format including date and time but no weekday
     readonly property string dateTimeFormat: qsTr("d/M/yyyy '('hh':'mm')'")
+    ConfigurationGroup {
+        id: mainConfig
+        path: "/apps/harbour-sfos-forum-viewer"
+    }
+    ConfigurationValue {
+        id: checkem
+        key: "/apps/harbour-sfos-forum-viewer/checkem"
+    }
+    ConfigurationValue {
+        id: loggedin
+        key: "/apps/harbour-sfos-forum-viewer/key"
+    }
 
     property QtObject categories: QtObject {
         property bool networkError: false
@@ -56,6 +71,7 @@ ApplicationWindow
         function fetch() {
             var xhr = new XMLHttpRequest;
             xhr.open("GET", application.source + "categories.json?include_subcategories=true");
+            if (loggedin.value && (loggedin.value != -1)) xhr.setRequestHeader("User-Api-Key", loggedin.value);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.responseText === "") {
@@ -120,6 +136,7 @@ ApplicationWindow
         fetching = true
         var xhr = new XMLHttpRequest;
         xhr.open("GET", source + "latest.json");
+        if (loggedin.value && (loggedin.value != -1)) xhr.setRequestHeader("User-Api-Key", loggedin.value);
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.responseText !== "") {
@@ -182,6 +199,11 @@ ApplicationWindow
     Component.onCompleted: {
         console.info("Intialized", Qt.application.name, "version", Qt.application.version, "by", Qt.application.organization );
         console.debug("Parameters: " + Qt.application.arguments.join(" "))
+        login = mainConfig.value("key", "-1");
+        mainConfig.setValue("key", login);
+        checkemb = mainConfig.value("checkem", false);
+        mainConfig.setValue("checkem", checkemb);
+        console.log(checkem.value, loggedin.value)
         categories.fetch();
         fetchLatestPosts();
     }

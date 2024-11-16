@@ -34,10 +34,10 @@ DISTFILES += qml/harbour-sfos-forum-viewer.qml \
     qml/pages/ThreadView.qml \
     qml/pages/UserCard.qml \
     qml/pages/webView.qml \
+    qml/pages/worker.js \
     rpm/harbour-sfos-forum-viewer.changes.in \
     rpm/harbour-sfos-forum-viewer.changes.run.in \
     rpm/harbour-sfos-forum-viewer.spec \
-    rpm/harbour-sfos-forum-viewer.yaml \
     translations/*.ts \
     harbour-sfos-forum-viewer.desktop \
     harbour-sfos-forum-viewer-openUrl.desktop \
@@ -58,6 +58,7 @@ TRANSLATIONS += \
     translations/harbour-sfos-forum-viewer-en.ts \
     translations/harbour-sfos-forum-viewer-es.ts \
     translations/harbour-sfos-forum-viewer-fr.ts \
+    translations/harbour-sfos-forum-viewer-it.ts \
     translations/harbour-sfos-forum-viewer-ru.ts \
     translations/harbour-sfos-forum-viewer-sv.ts \
     translations/harbour-sfos-forum-viewer-zh_CN.ts

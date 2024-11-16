@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr" sourcelanguage="en">
+<TS version="2.1" language="it_IT">
 <context>
     <name>About</name>
     <message>
         <source>About</source>
-        <translation>À propos</translation>
+        <translation>A proposito di</translation>
+    </message>
+    <message>
+        <source>, </source>
+        <extracomment>contributors list separator</extracomment>
+        <translation>, </translation>
+    </message>
+    <message>
+        <source>Source code</source>
+        <translation>Codice Sorgente</translation>
+    </message>
+    <message>
+        <source>License</source>
+        <translation>Licenza</translation>
     </message>
     <message>
         <source>SFOS Forum Viewer for Sailfish OS v%1
@@ -17,58 +30,45 @@ AboutPage art by Hanibu
 
 Special thanks to contributors:
 </source>
-        <translation>Visionneur du forum SFOS pour Sailfish OS : v%1
-Par szopin
-Licence MIT
+        <translation>Visualizzatore SFOS Forum per Sailfish OS v%1
+By szopin
+Sotto licenza MIT
 
-Design de l&apos;icone par dseight
-AboutPage art par Hanibu
+Icona app progettata da dseight
+Immagine pagina informazioni fatta da Hanibu
 
-Remerciements aux contributeurs :
+Un grazie speciale ai contributori:
 </translation>
-    </message>
-    <message>
-        <source>, </source>
-        <extracomment>contributors list separator</extracomment>
-        <translation>, </translation>
-    </message>
-    <message>
-        <source>Source code</source>
-        <translation>Sources</translation>
-    </message>
-    <message>
-        <source>License</source>
-        <translation>Licence</translation>
     </message>
 </context>
 <context>
     <name>CategorySelect</name>
     <message>
         <source>Categories</source>
-        <translation>Catégories</translation>
+        <translation>Categorie</translation>
     </message>
     <message>
         <source>Latest</source>
-        <translation>Dernier</translation>
+        <translation>Recenti</translation>
     </message>
     <message>
         <source>Top</source>
-        <translation>Top</translation>
+        <translation>Più importanti</translation>
     </message>
     <message>
         <source>Nothing to show</source>
-        <translation>Rien à montrer</translation>
+        <translation>Niente da mostrare</translation>
     </message>
     <message>
         <source>Is the network enabled?</source>
-        <translation>Le réseau est-il activé ?</translation>
+        <translation>La rete è abilitata?</translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>Latest posts</source>
-        <translation>Derniers commentaires</translation>
+        <translation>Ultimi post</translation>
     </message>
     <message>
         <source>SailfishOS</source>
@@ -78,89 +78,89 @@ Remerciements aux contributeurs :
     <message>
         <source>Forum Viewer</source>
         <extracomment>part of &apos;SailfishOS Forum Viewer&apos;</extracomment>
-        <translation>Visionneur de forum</translation>
+        <translation>Forum Viewer</translation>
     </message>
 </context>
 <context>
     <name>Error</name>
     <message>
         <source>Error:</source>
-        <translation>Erreur :</translation>
+        <translation>Errore:</translation>
     </message>
 </context>
 <context>
     <name>FirstPage</name>
     <message>
         <source>Latest</source>
-        <translation type="unfinished">Dernier</translation>
+        <translation>Recenti</translation>
     </message>
     <message>
         <source>Top</source>
-        <translation type="unfinished">Top</translation>
+        <translation>Più importanti</translation>
     </message>
     <message>
         <source>SailfishOS Forum</source>
-        <translation type="unfinished">SailfishOS Forum</translation>
+        <translation>Forum di SailfishOS</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished">À propos</translation>
+        <translation>A proposito di</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Effettua l&apos;accesso</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished"></translation>
+        <translation>Esci</translation>
     </message>
     <message>
         <source>New thread</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuova discussione</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished">Rechercher</translation>
+        <translation>Cerca</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Notifiche</translation>
     </message>
     <message>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>Ricarica</translation>
     </message>
     <message>
         <source>Nothing to show</source>
-        <translation type="unfinished">Rien à montrer</translation>
+        <translation>Niente da mostrare</translation>
     </message>
     <message>
         <source>Is the network enabled?</source>
-        <translation type="unfinished">Le réseau est-il activé ?</translation>
+        <translation>La rete è abilitata?</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation type="unfinished"></translation>
+        <translation>Carica altro</translation>
     </message>
     <message>
         <source>New notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuova notifica</translation>
     </message>
     <message>
         <source>tags</source>
-        <translation type="unfinished"></translation>
+        <translation>tags</translation>
     </message>
     <message>
         <source>Mark as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Segna come letto</translation>
     </message>
     <message>
         <source>Clear filter list</source>
-        <translation type="unfinished"></translation>
+        <translation>Pulisci lista filtri</translation>
     </message>
     <message>
         <source>Filter OP</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtra OP</translation>
     </message>
     <message>
         <source>Muted</source>
@@ -211,84 +211,84 @@ Remerciements aux contributeurs :
     <name>NewPost</name>
     <message>
         <source>Enter post</source>
-        <translation>Insérer un commentaire</translation>
+        <translation>Immetti post</translation>
     </message>
     <message>
         <source>Body</source>
-        <translation>Corps</translation>
+        <translation>Corpo</translation>
     </message>
     <message>
         <source>Edit post</source>
-        <translation>Éditer le commentaire</translation>
+        <translation>Modifica post</translation>
     </message>
     <message>
         <source>Insert quote</source>
-        <translation>Insérer une citation</translation>
+        <translation>Inserisci citazione</translation>
     </message>
     <message>
         <source>Upload image (through ImgBB)</source>
-        <translation type="unfinished"></translation>
+        <translation>Carica immagine (con Imgbb)</translation>
     </message>
 </context>
 <context>
     <name>NewThread</name>
     <message>
         <source>Enter thread</source>
-        <translation>Entrer dans le fil de discussion</translation>
+        <translation>Inserisci argomento</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation>Titre</translation>
+        <translation>Titolo</translation>
     </message>
     <message>
         <source>Body</source>
-        <translation>Corps</translation>
+        <translation>Corpo</translation>
     </message>
     <message>
         <source>Enter PM to </source>
-        <translation type="unfinished"></translation>
+        <translation>Invia Messaggio Privato a </translation>
     </message>
 </context>
 <context>
     <name>NotificationSettings</name>
     <message>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>Accetta</translation>
     </message>
     <message>
         <source>Check automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlla automaticamente</translation>
     </message>
     <message>
         <source>Minutes: </source>
-        <translation type="unfinished"></translation>
+        <translation>Minuti: </translation>
     </message>
 </context>
 <context>
     <name>Notifications</name>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Notifiche</translation>
     </message>
     <message>
         <source>SailfishOS Forum</source>
-        <translation type="unfinished">SailfishOS Forum</translation>
+        <translation>Forum SailfishOS</translation>
     </message>
     <message>
         <source>Nothing to show</source>
-        <translation type="unfinished">Rien à montrer</translation>
+        <translation>Niente da mostrare</translation>
     </message>
     <message>
         <source>Is the network enabled?</source>
-        <translation type="unfinished">Le réseau est-il activé ?</translation>
+        <translation>La rete è abilitata?</translation>
     </message>
     <message>
         <source>PMs</source>
-        <translation type="unfinished"></translation>
+        <translation>Messagi Privati</translation>
     </message>
     <message>
         <source>PMs - sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Messaggi Privati Inviati</translation>
     </message>
     <message>
         <source>Muted topics</source>
@@ -303,11 +303,11 @@ Remerciements aux contributeurs :
     <name>OpenLink</name>
     <message>
         <source>Open URL in webview?</source>
-        <translation>Ouvrir l&apos;URL dans le WebView ?</translation>
+        <translation>Aprire URL nella webview?</translation>
     </message>
     <message>
         <source>Open externally</source>
-        <translation>Ouvrir le lien avec</translation>
+        <translation>Apri con browser</translation>
     </message>
 </context>
 <context>
@@ -381,71 +381,71 @@ Remerciements aux contributeurs :
     <name>PostView</name>
     <message>
         <source>Revision history</source>
-        <translation>Révision de l&apos;historique</translation>
+        <translation>Cronologia</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Précédent</translation>
+        <translation>Precedente</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Suivant</translation>
+        <translation>Prossimo</translation>
     </message>
     <message>
         <source>Alternative formatting</source>
-        <translation>Formattage alternatif</translation>
+        <translation>Formattazione alternativa</translation>
     </message>
 </context>
 <context>
     <name>SearchPage</name>
     <message>
         <source>Searching in “%1”</source>
-        <translation>Recherche dans “%1”</translation>
+        <translation>Sto cercando in “%1”</translation>
     </message>
     <message>
         <source>No results</source>
         <extracomment>part of &apos;No results in &quot;foo&quot;&apos;</extracomment>
-        <translation>Aucun résultats</translation>
+        <translation>Nessun risultato</translation>
     </message>
     <message>
         <source>in “%1”</source>
         <extracomment>part of &apos;No results in &quot;foo&quot;&apos;</extracomment>
-        <translation>dans “%1”</translation>
+        <translation>su “%1”</translation>
     </message>
     <message>
         <source>Search in all threads</source>
-        <translation>Rechercher dans tous les fils de discussion</translation>
+        <translation>Cerca in tutte le discussioni</translation>
     </message>
     <message>
         <source>Search in the current thread</source>
-        <translation>Rechercher dans le fil actuel</translation>
+        <translation>Cerca nella discussione corrente</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>Rechercher</translation>
+        <translation>Cerca</translation>
     </message>
 </context>
 <context>
     <name>ThreadView</name>
     <message>
         <source>Copy link to clipboard</source>
-        <translation>Copier le lien</translation>
+        <translation>Copia collegamento negli appunti</translation>
     </message>
     <message>
         <source>Open in external browser</source>
-        <translation>Ouvrir dans le navigateur</translation>
+        <translation>Apri nel browser esterno</translation>
     </message>
     <message>
         <source>Open directly</source>
-        <translation>Ouvrir directement</translation>
+        <translation>Apri direttamente</translation>
     </message>
     <message>
         <source>Search thread</source>
-        <translation>Rechercher le fil de discussion</translation>
+        <translation>Cerca argomento</translation>
     </message>
     <message>
         <source>Post reply</source>
-        <translation>Publier le commentaire</translation>
+        <translation>Invia risposta</translation>
     </message>
     <message>
         <source>✍️: %1</source>
@@ -453,51 +453,51 @@ Remerciements aux contributeurs :
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Copier</translation>
+        <translation>Copia negli appunti</translation>
     </message>
     <message>
         <source>Revision history</source>
-        <translation>Historique</translation>
+        <translation>Cronologia</translation>
     </message>
     <message>
         <source>Alternative formatting</source>
-        <translation>Formattage alternatif</translation>
+        <translation>Formattazione alternativa</translation>
     </message>
     <message>
         <source>Show replied to post</source>
-        <translation>Afficher le message répondu</translation>
+        <translation>Mostra risposta al post</translation>
     </message>
     <message>
         <source>Uncensor post</source>
-        <translation>Afficher le commentaire</translation>
+        <translation>Togli censura post</translation>
     </message>
     <message>
         <source>Like</source>
-        <translation>Aimer</translation>
+        <translation>Mi piace</translation>
     </message>
     <message>
         <source>Reply</source>
-        <translation>Répondre</translation>
+        <translation>Rispondi</translation>
     </message>
     <message>
         <source>Unlike</source>
-        <translation>Ne plus aimer</translation>
+        <translation>Non mi piace più</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Supprimer</translation>
+        <translation>Cancella</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Éditer</translation>
+        <translation>Modifica</translation>
     </message>
     <message>
         <source>tags</source>
-        <translation type="unfinished"></translation>
+        <translation>tags</translation>
     </message>
     <message>
         <source>Filter user</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtra utente</translation>
     </message>
     <message>
         <source>This post contains polls.</source>
@@ -520,7 +520,7 @@ Remerciements aux contributeurs :
     <name>UserCard</name>
     <message>
         <source>PM</source>
-        <translation type="unfinished"></translation>
+        <translation>Messaggi Privati</translation>
     </message>
 </context>
 <context>

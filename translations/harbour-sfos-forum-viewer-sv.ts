@@ -150,6 +150,62 @@ Speciellt tack till medverkande:
         <source>tags</source>
         <translation>taggar</translation>
     </message>
+    <message>
+        <source>Mark as read</source>
+        <translation>Markera som läst</translation>
+    </message>
+    <message>
+        <source>Clear filter list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter OP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Muted</source>
+        <comment>Topic watch level (state)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute</source>
+        <comment>Topic watch action (verb)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <comment>Topic watch level (state)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <comment>Topic watch action (verb)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tracking</source>
+        <comment>Topic watch level (state)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Track</source>
+        <comment>Topic watch action (verb)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watching</source>
+        <comment>Topic watch level (state)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watch</source>
+        <comment>Topic watch action (verb)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Don&apos;t track (local)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewPost</name>
@@ -234,6 +290,14 @@ Speciellt tack till medverkande:
         <source>PMs - sent</source>
         <translation>PM - skickat</translation>
     </message>
+    <message>
+        <source>Muted topics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unmute</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OpenLink</name>
@@ -244,6 +308,73 @@ Speciellt tack till medverkande:
     <message>
         <source>Open externally</source>
         <translation>Öppna externt</translation>
+    </message>
+</context>
+<context>
+    <name>PollView</name>
+    <message>
+        <source>Single Answer Poll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple Answer Poll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rating Poll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsupported Poll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This poll has more than %1 options, this is not supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please go back and open the poll in a browser window.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type of poll is not yet supported: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Voters: %1 Status: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>submitted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Votes: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Submit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View Results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View Votes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>not logged in</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -363,6 +494,26 @@ Speciellt tack till medverkande:
     <message>
         <source>tags</source>
         <translation>taggar</translation>
+    </message>
+    <message>
+        <source>Filter user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This post contains polls.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This post contains a poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to view and vote:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Poll</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

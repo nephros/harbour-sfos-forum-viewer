@@ -41,6 +41,7 @@ Page {
     property int timerv
     property string lastnotv
     property var tags
+    property var posters
     property string fancy_title
     property string orig_name
     property string disp_name
@@ -53,6 +54,7 @@ Page {
     property string combined2: application.source + "notifications.json"
     property bool networkError: false
     property bool loadedMore: false
+    property bool spam: false
 
 
     function newtopic(raw, title, category){
@@ -104,7 +106,6 @@ Page {
                                        "topicid": data.topic_id,
                                        "post_number": 0
                                    });
-                    //   clearview();
                 }
             }
         }
@@ -121,6 +122,7 @@ Page {
         var xhr = new XMLHttpRequest;
 
         xhr.open("GET", combined);
+        if (loggedin.value !== "-1" && loggedin.value) xhr.setRequestHeader("User-Api-Key", loggedin.value);
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.responseText === "") {
@@ -133,7 +135,7 @@ Page {
 
                 var data = JSON.parse(xhr.responseText);
                 var topics = data.topic_list.topics;
-
+                posters = xhr.responseText;
                 // Filter bumped if required
                 if (viewmode === "latest" && tid === ""){
                     topics = topics.filter(function(t) {
@@ -143,24 +145,35 @@ Page {
 
                 var topics_length = topics.length;
                 for (var i=0;i<topics_length;i++) {
+                    spam = false;
                     var topic = topics[i];
-                    tags = ""
-                    if(topic.tags){
-                        for(var t=0;t<topic.tags.length;t++){
-                            tags = tags + topic.tags[t] + " "
+                    for(var s=0;s<topic.posters.length;s++){
+                        if(topic.posters[s].description.indexOf("Recent") > 0){
+                            var spammerid = topic.posters[s].user_id;
+                            //      console.log(topic.posters[s].description.indexOf("Recent"))
+                            if(filterlist.value(spammerid, -1)  !== -1 ){
+                                spam = true;
+                                console.log("spam" + filterlist.value(spammerid, -1));
+                            }
                         }
                     }
+                    var spammerop = filterlist.value(topic.posters[0].user_id, -1) < 0 ? true : false;
+                    if (topic.tags) tags = topic.tags.join(" ");
                     list.model.append({ title: topic.title,
                                           topicid: topic.id,
                                           posts_count: topic.posts_count,
                                           bumped: topic.bumped_at,
                                           category_id: topic.category_id,
                                           ttags: tags,
+                                          spam: spam,
+                                          spamop: topic.posters[0].user_id,
+                                          user_id: spammerop,
                                           has_accepted_answer: topic.has_accepted_answer,
-                                          highest_post_number: topic.highest_post_number
+                                          highest_post_number: topic.highest_post_number,
+                                          notification_level: topic.notification_level !== undefined ? topic.notification_level : 1
                                       });
+                    //console.log(topic.posters[0].user_id)
                 }
-
                 if (data.topic_list.more_topics_url){
                     pageno++;
                 } else {
@@ -170,6 +183,16 @@ Page {
         }
 
         xhr.send();
+    }
+
+    function getusername(user_id){
+        var data = JSON.parse(posters);
+        for(var i=0;i<data.users.length;i++){
+            if (data.users[i].id == user_id){
+                console.log(data.users[i].username);
+                return data.users[i].username;
+            }
+        }
     }
 
     function checknotifications(){
@@ -226,10 +249,61 @@ Page {
         clearview();
 
     }
+
+    readonly property var watchlevel: [
+        { "name": qsTr("Muted",    "Topic watch level (state)"),
+          "action": qsTr("Mute",   "Topic watch action (verb)"),
+          "smallicon": "image://theme/icon-m-speaker-mute",
+          "icon": "image://theme/icon-m-speaker-mute"
+        },
+        { "name": qsTr("Normal",   "Topic watch level (state)"),
+          "action": qsTr("Normal", "Topic watch action (verb)"),
+          "smallicon": "",
+          "icon": "image://theme/icon-m-favorite"
+        },
+        { "name": qsTr("Tracking", "Topic watch level (state)"),
+          "action": qsTr("Track",  "Topic watch action (verb)"),
+          "smallicon": "image://theme/icon-m-favorite",
+          "icon": "image://theme/icon-m-favorite-selected"
+        },
+        { "name": qsTr("Watching", "Topic watch level (state)"),
+          "action": qsTr("Watch",  "Topic watch action (verb)"),
+          "smallicon": "image://theme/icon-m-alarm",
+          "icon": "image://theme/icon-m-alarm"
+        }
+    ]
+    // level being one of 0, 1, 2, 3; representing muted, normal, tracking, watching
+    // !! payload wants a string so "0", not 0
+    function setNotificationLevel(index, topicid, level){
+        if (loggedin.value == "-1") return
+        console.debug("Setting watch level to", level, ",", watchlevel[Number(level)].name)
+        var xhr = new XMLHttpRequest;
+        const json = {
+            "notification_level": level
+        };
+        xhr.open("POST", application.source + "/t/" + topicid + "/notifications.json");
+        xhr.setRequestHeader("User-Api-Key", loggedin.value);
+        xhr.setRequestHeader("Content-Type", 'application/json');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE){
+                if(xhr.statusText !== "OK"){
+                    pageStack.completeAnimation();
+                    pageStack.push("Error.qml", {errortext: xhr.responseText});
+                } else {
+                    console.log(xhr.responseText);
+                    // update the topic properties
+                    list.model.setProperty(index, "notification_level", level)
+                }
+            }
+        }
+        xhr.send(JSON.stringify(json));
+    }
+
     ConfigurationValue {
         id: loggedin
         key: "/apps/harbour-sfos-forum-viewer/key"
     }
+
     ConfigurationValue {
         id: checkem
         key: "/apps/harbour-sfos-forum-viewer/checkem"
@@ -241,6 +315,10 @@ Page {
     ConfigurationValue {
         id: lastnot
         key: "/apps/harbour-sfos-forum-viewer/lastnot"
+    }
+    ConfigurationValue {
+        id: filterset
+        key: "/apps/harbour-sfos-forum-viewer/filterlist/set"
     }
     onStatusChanged: {
         if (status === PageStatus.Active){
@@ -255,6 +333,10 @@ Page {
         // We save metadata for every thread the user opened. We
         // have a nested ConfigurationGroup for every value
         // we track. The key is always the id (topicid).
+        ConfigurationGroup {
+            id: filterlist
+            path: "/apps/harbour-sfos-forum-viewer/filterlist"
+        }
 
         ConfigurationGroup {
             id: postCountConfig
@@ -335,6 +417,15 @@ Page {
                 visible: loggedin.value != "-1" && tid ? true : false
                 onClicked: pageStack.push("NewThread.qml", {category: category, raw: topic_template});
             }
+            MenuItem {
+                visible: filterset.value  == undefined ? false : true
+                text: qsTr("Clear filter list")
+                onClicked: {
+                    filterlist.clear();
+                    clearview();
+                }
+            }
+
 
             MenuItem {
                 text: qsTr("Search")
@@ -380,29 +471,49 @@ Page {
             mainConfig.setValue("timer", timerv);
             lastnotv = mainConfig.value("lastnot", "-1");
             mainConfig.setValue("lastnot", lastnotv);
+            console.log(checkem.value, loggedin.value)
             showLatest();
         }
 
-        delegate: BackgroundItem {
+        delegate: ListItem {
             id: item
             width: parent.width
-            height: delegateCol.height + Theme.paddingLarge
+            contentHeight: user_id ?  normrow.height + Theme.paddingLarge : spamrow.height
 
             property int lastPostNumber: postCountConfig.value(topicid, -1)
             property bool hasNews: (lastPostNumber > 0 && lastPostNumber < highest_post_number)
 
+
             Column {
                 id: delegateCol
-                height: childrenRect.height
+                height: user_id ? normrow.height : spamrow.height
                 width: parent.width - 2*Theme.horizontalPageMargin
                 spacing: Theme.paddingSmall
                 anchors {
                     verticalCenter: parent.verticalCenter
                     horizontalCenter: parent.horizontalCenter
                 }
+                Row {
+                    id: spamrow
+                    visible: !user_id
+                    width: parent.width
+                    spacing: 1.5*Theme.paddingMedium
+                    Label {
+                        id: spamLabel
+                        text: 'spam'
+                        font.pixelSize: Theme.fontSizeSmall
+                        color:
+                            Theme.primaryColor
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+
 
                 Row {
+                    id: normrow
                     width: parent.width
+                    visible: user_id
                     spacing: 1.5*Theme.paddingMedium
 
                     Column {
@@ -419,7 +530,7 @@ Page {
                             font.pixelSize: Theme.fontSizeSmall
                             color: item.lastPostNumber < 0 ?
                                        Theme.primaryColor :
-                                       (item.hasNews ?
+                                       (item.hasNews && !spam ?
                                             Theme.highlightColor :
                                             Theme.secondaryColor)
                             opacity: Theme.opacityHigh
@@ -431,21 +542,27 @@ Page {
                                 anchors.centerIn: parent
                                 width: parent.width+Theme.paddingSmall; height: parent.height
                                 radius: 20
-                                opacity: item.lastPostNumber < highest_post_number ?
+                                opacity: item.lastPostNumber < highest_post_number && !spam ?
                                              Theme.opacityLow :
                                              Theme.opacityFaint
-                                color: item.hasNews ?
+                                color: item.hasNews && !spam ?
                                            Theme.secondaryHighlightColor :
                                            Theme.secondaryColor
                             }
                         }
 
                         Icon {
-                            visible: has_accepted_answer
-                            source: "image://theme/icon-s-accept"
+                            //visible: has_accepted_answer
+                            //source: "image://theme/icon-s-accept"
+                            visible: source != ""
+                            source: has_accepted_answer
+                                        ? "image://theme/icon-s-accept?" + Theme.highlightFromColor(Theme.presenceColor(Theme.PresenceAvailable), Theme.colorScheme )
+                                        : ((notification_level >= 0 && loggedin.value !== "-1")
+                                            ? watchlevel[notification_level].smallicon
+                                            : "")
                             width: Theme.iconSizeSmall
                             height: width
-                            opacity: Theme.opacityLow
+                            opacity: has_accepted_answer ? Theme.opacityLow : 1.0
                         }
                     }
 
@@ -457,9 +574,9 @@ Page {
                             width: parent.width
                             wrapMode: Text.Wrap
                             font.pixelSize: Theme.fontSizeSmall
-                            color: highlighted || item.hasNews
+                            color: highlighted || item.hasNews && !spam
                                    ? Theme.highlightColor
-                                   : (item.lastPostNumber < highest_post_number
+                                   : (item.lastPostNumber < highest_post_number && !spam
                                       ? Theme.primaryColor
                                       : Theme.secondaryColor)
                         }
@@ -474,8 +591,8 @@ Page {
                                 wrapMode: Text.Wrap
                                 elide: Text.ElideRight
                                 width: (parent.width - 2*parent.spacing - catRect.width)/2
-                                color: highlighted || item.hasNews ? Theme.secondaryHighlightColor
-                                                                   : Theme.secondaryColor
+                                color: highlighted || item.hasNews && !spam ? Theme.secondaryHighlightColor
+                                                                            : Theme.secondaryColor
                                 font.pixelSize: Theme.fontSizeSmall
                                 horizontalAlignment: Text.AlignLeft
                             }
@@ -486,8 +603,8 @@ Page {
                                 wrapMode: Text.Wrap
                                 elide: Text.ElideRight
                                 width: dateLabel.width
-                                color: highlighted || item.hasNews ? Theme.secondaryHighlightColor
-                                                                   : Theme.secondaryColor
+                                color: highlighted || item.hasNews && !spam ? Theme.secondaryHighlightColor
+                                                                            : Theme.secondaryColor
                                 font.pixelSize: Theme.fontSizeSmall
                                 horizontalAlignment: Text.AlignRight
                             }
@@ -515,8 +632,8 @@ Page {
                                 wrapMode: Text.Wrap
                                 elide: Text.ElideRight
                                 width: parent.width
-                                color: highlighted || item.hasNews ? Theme.secondaryHighlightColor
-                                                                   : Theme.secondaryColor
+                                color: highlighted || item.hasNews && !spam ? Theme.secondaryHighlightColor
+                                                                            : Theme.secondaryColor
                                 font.pixelSize: Theme.fontSizeSmall
                                 horizontalAlignment: Text.AlignLeft
                             }
@@ -526,24 +643,97 @@ Page {
                 }
             }
 
+            menu: ContextMenu { id: ctxmenu
+                hasContent: lastPostNumber > 0 || !loadedMore
+                property int wantLevel: notification_level
+                onClosed: if (wantLevel != notification_level) {
+                    setNotificationLevel(index, topicid, wantLevel)
+                }
+                MenuItem { text: qsTr("Mark as read")
+                    visible: lastPostNumber > 0 && lastPostNumber < highest_post_number
+                    onDelayedClick: {
+                        postCountConfig.setValue(topicid, highest_post_number);
+                        lastPostNumber = highest_post_number;
+                    }
+                }
+                MenuLabel { height: buttons.height
+                    visible: loggedin.value !== "-1"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    Grid{ id: buttons
+                        rows: 1
+                        columns: watchlevel.length
+                        spacing: Theme.paddingLarge
+                        anchors.centerIn: parent
+                        Repeater { id: rep
+                            model: watchlevel
+                            delegate: BackgroundItem { id: bitem
+                                height: iconcol.height + Theme.paddingSmall
+                                width: iconcol.height
+                                Column { id: iconcol
+                                    width: parent.width
+                                    spacing: Theme.paddingSmall
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    Icon { id: icon
+                                        width: Theme.iconSizeSmallPlus
+                                        height: width
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        source: modelData.icon + "?" + (highlighted ? Theme.highlightColor : Theme.primaryColor)
+                                        highlighted: bitem.down || (index == ctxmenu.wantLevel)
+                                    }
+                                    Label {
+                                        anchors.horizontalCenter: icon.horizontalCenter
+                                        text: modelData.action
+                                        font.pixelSize: Theme.fontSizeExtraSmall
+                                        color: icon.highlighted ? Theme.highlightColor : Theme.primaryColor
+                                        highlighted: icon.highlighted
+                                    }
+                                }
+                                // only change value when menu is closed
+                                onClicked: ctxmenu.wantLevel = index
+                            }
+                        }
+                    }
+                }
+                MenuItem { text: qsTr("Don't track (local)")
+                    visible: lastPostNumber > 0
+                    onDelayedClick: {
+                        postCountConfig.setValue(topicid, "-1");
+                        lastPostNumber = -1;
+                    }
+                }
+                MenuItem { text: qsTr("Filter OP")
+                    visible: !loadedMore
+                    onDelayedClick: {
+                        console.log(getusername(spamop));
+                        filterlist.setValue("set", 1);
+                        filterlist.setValue(spamop, getusername(spamop));
+                        filterlist.sync();
+                        clearview();
+                    }
+                }
+            }
             onClicked: {
-                var name = list.model.get(index).name
-                postCountConfig.setValue(topicid, highest_post_number);
-                var oldLast = lastPostNumber;
-                lastPostNumber = highest_post_number;
-                pageStack.push("ThreadView.qml", {
-                                   "aTitle": title,
-                                   "topicid": topicid,
-                                   "posts_count": posts_count,
-                                   "post_number": oldLast,
-                                   "highest_post_number": highest_post_number
-                               });
+                if(user_id){
+                    var name = list.model.get(index).name
+                    postCountConfig.setValue(topicid, highest_post_number);
+                    var oldLast = lastPostNumber;
+                    lastPostNumber = highest_post_number;
+                    pageStack.push("ThreadView.qml", {
+                                       "aTitle": title,
+                                       "topicid": topicid,
+                                       "posts_count": posts_count,
+                                       "post_number": oldLast,
+                                       "highest_post_number": highest_post_number
+                                   });
+                } else {
+                    user_id = !user_id;
+                }
             }
         }
         BackgroundJob {
             id: wakeup
             triggeredOnEnable: true
-            enabled: checkem.value && loggedin.value != "-1"
+            enabled: checkem.value && loggedin.value != "-1" && loggedin.value
             frequency: BackgroundJob.ThirtySeconds * 2 * timer.value
             onTriggered: {
                 checknotifications();

@@ -85,69 +85,125 @@ Vielen Dank an die Mitwirkenden:
     <name>Error</name>
     <message>
         <source>Error:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler:</translation>
     </message>
 </context>
 <context>
     <name>FirstPage</name>
     <message>
         <source>Latest</source>
-        <translation type="unfinished">Neuigkeiten</translation>
+        <translation>Neuigkeiten</translation>
     </message>
     <message>
         <source>Top</source>
-        <translation type="unfinished">Top</translation>
+        <translation>Top</translation>
     </message>
     <message>
         <source>SailfishOS Forum</source>
-        <translation type="unfinished">SailfishOS-Forum</translation>
+        <translation>SailfishOS-Forum</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished">Über</translation>
+        <translation>Über</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Einloggen</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausloggen</translation>
     </message>
     <message>
         <source>New thread</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Diskussion</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished">Suchen</translation>
+        <translation>Suchen</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Benachrichtigungen</translation>
     </message>
     <message>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>Neu Laden</translation>
     </message>
     <message>
         <source>Nothing to show</source>
-        <translation type="unfinished">Nichts anzuzeigen</translation>
+        <translation>Nichts anzuzeigen</translation>
     </message>
     <message>
         <source>Is the network enabled?</source>
-        <translation type="unfinished">Ist die Netzwerkverbindung aktiviert?</translation>
+        <translation>Ist die Netzwerkverbindung aktiviert?</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation type="unfinished"></translation>
+        <translation>Mehr anzeigen</translation>
     </message>
     <message>
         <source>New notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Benachrichtigung</translation>
     </message>
     <message>
         <source>tags</source>
+        <translation>Tags</translation>
+    </message>
+    <message>
+        <source>Mark as read</source>
+        <translation>Als Gelesen markieren</translation>
+    </message>
+    <message>
+        <source>Clear filter list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter OP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Muted</source>
+        <comment>Topic watch level (state)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute</source>
+        <comment>Topic watch action (verb)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <comment>Topic watch level (state)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <comment>Topic watch action (verb)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tracking</source>
+        <comment>Topic watch level (state)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Track</source>
+        <comment>Topic watch action (verb)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watching</source>
+        <comment>Topic watch level (state)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watch</source>
+        <comment>Topic watch action (verb)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Don&apos;t track (local)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -155,83 +211,91 @@ Vielen Dank an die Mitwirkenden:
     <name>NewPost</name>
     <message>
         <source>Enter post</source>
-        <translation type="unfinished"></translation>
+        <translation>Beitrag erstellen</translation>
     </message>
     <message>
         <source>Body</source>
-        <translation type="unfinished"></translation>
+        <translation>Inhalt</translation>
     </message>
     <message>
         <source>Edit post</source>
-        <translation type="unfinished"></translation>
+        <translation>Beitrag bearbeiten</translation>
     </message>
     <message>
         <source>Insert quote</source>
-        <translation type="unfinished"></translation>
+        <translation>Zitat einfügen</translation>
     </message>
     <message>
         <source>Upload image (through ImgBB)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bild hochladen (via ImgBB)</translation>
     </message>
 </context>
 <context>
     <name>NewThread</name>
     <message>
         <source>Enter thread</source>
-        <translation type="unfinished"></translation>
+        <translation>Diskussion starten</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <source>Body</source>
-        <translation type="unfinished"></translation>
+        <translation>Inhalt</translation>
     </message>
     <message>
         <source>Enter PM to </source>
-        <translation type="unfinished"></translation>
+        <translation>PN an </translation>
     </message>
 </context>
 <context>
     <name>NotificationSettings</name>
     <message>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>Check automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisch aktualisieren</translation>
     </message>
     <message>
         <source>Minutes: </source>
-        <translation type="unfinished"></translation>
+        <translation>Minuten: </translation>
     </message>
 </context>
 <context>
     <name>Notifications</name>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Benachrichtigungen</translation>
     </message>
     <message>
         <source>SailfishOS Forum</source>
-        <translation type="unfinished">SailfishOS-Forum</translation>
+        <translation>SailfishOS-Forum</translation>
     </message>
     <message>
         <source>Nothing to show</source>
-        <translation type="unfinished">Nichts anzuzeigen</translation>
+        <translation>Nichts anzuzeigen</translation>
     </message>
     <message>
         <source>Is the network enabled?</source>
-        <translation type="unfinished">Ist die Netzwerkverbindung aktiviert?</translation>
+        <translation>Ist die Netzwerkverbindung aktiviert?</translation>
     </message>
     <message>
         <source>PMs</source>
-        <translation type="unfinished"></translation>
+        <translation>PN</translation>
     </message>
     <message>
         <source>PMs - sent</source>
+        <translation>PN - gesendet</translation>
+    </message>
+    <message>
+        <source>Muted topics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unmute</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -244,6 +308,73 @@ Vielen Dank an die Mitwirkenden:
     <message>
         <source>Open externally</source>
         <translation>Extern öffnen</translation>
+    </message>
+</context>
+<context>
+    <name>PollView</name>
+    <message>
+        <source>Single Answer Poll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple Answer Poll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rating Poll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsupported Poll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This poll has more than %1 options, this is not supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please go back and open the poll in a browser window.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type of poll is not yet supported: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Voters: %1 Status: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>submitted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Votes: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Submit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View Results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View Votes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>not logged in</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -262,7 +393,7 @@ Vielen Dank an die Mitwirkenden:
     </message>
     <message>
         <source>Alternative formatting</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternative Formatierung</translation>
     </message>
 </context>
 <context>
@@ -298,23 +429,23 @@ Vielen Dank an die Mitwirkenden:
     <name>ThreadView</name>
     <message>
         <source>Copy link to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>In die Zwischenablage kopieren</translation>
     </message>
     <message>
         <source>Open in external browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Im Browser öffnen</translation>
     </message>
     <message>
         <source>Open directly</source>
-        <translation type="unfinished"></translation>
+        <translation>Direkt öffnen</translation>
     </message>
     <message>
         <source>Search thread</source>
-        <translation type="unfinished"></translation>
+        <translation>Diskussion durchsuchen</translation>
     </message>
     <message>
         <source>Post reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Antworten</translation>
     </message>
     <message>
         <source>✍️: %1</source>
@@ -322,46 +453,66 @@ Vielen Dank an die Mitwirkenden:
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>In die Zwischenablage kopieren</translation>
     </message>
     <message>
         <source>Revision history</source>
-        <translation type="unfinished">Änderungsverlauf</translation>
+        <translation>Änderungsverlauf</translation>
     </message>
     <message>
         <source>Alternative formatting</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternative Formatierung</translation>
     </message>
     <message>
         <source>Show replied to post</source>
-        <translation type="unfinished"></translation>
+        <translation>Beantworteten Beitrag anzeigen</translation>
     </message>
     <message>
         <source>Uncensor post</source>
-        <translation type="unfinished"></translation>
+        <translation>Zenur entfernen</translation>
     </message>
     <message>
         <source>Like</source>
-        <translation type="unfinished"></translation>
+        <translation>Like</translation>
     </message>
     <message>
         <source>Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Antworten</translation>
     </message>
     <message>
         <source>Unlike</source>
-        <translation type="unfinished"></translation>
+        <translation>Un-Like</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>bearbeiten</translation>
     </message>
     <message>
         <source>tags</source>
+        <translation>Tags</translation>
+    </message>
+    <message>
+        <source>Filter user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This post contains polls.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This post contains a poll.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to view and vote:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Poll</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -369,7 +520,7 @@ Vielen Dank an die Mitwirkenden:
     <name>UserCard</name>
     <message>
         <source>PM</source>
-        <translation type="unfinished"></translation>
+        <translation>PN</translation>
     </message>
 </context>
 <context>
