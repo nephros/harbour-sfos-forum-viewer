@@ -757,7 +757,7 @@ Page {
                     onClicked: del(postid, index);
                 }
                 MenuItem { text: qsTr("Filter user")
-
+                    visible: !yours
                     onClicked: {
                         remspam(user_id, username);
 
