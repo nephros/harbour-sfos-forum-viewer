@@ -57,11 +57,38 @@ Page {
     property bool spam: false
 
     function logout() {
-        Remorse.popupAction(
-            firstPage,
-            qsTr("Logged out"),
-            function() { mainConfig.setValue("key", "-1") }
-        )
+        var dlg = pageStack.push(logoutDialog)
+        dlg.onDone.connect(confirmLogout)
+        function confirmLogout() {
+            if (dlg.result !== DialogResult.Rejected) {
+                mainConfig.setValue("key", "-1")
+                pageStack.completeAnimation()
+                pageStack.pop(app.initialPage, PageStackAction.Immediate)
+            }
+        }
+    }
+    Component { id: logoutDialog
+        Dialog { id: ldlg
+            DialogHeader { id: header; acceptText: qsTr("Logout now") }
+            ProgressBar { id: pbar
+                width: parent.width - Theme.horizontalPageMargin
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: header.bottom
+                minimumValue: 0
+                maximumValue: 500
+                value: maximumValue
+                label: qsTr("Logging out")
+                onValueChanged: {
+                  if (value <= 0) ldlg.accept()
+                }
+            }
+            Timer {
+              running: true
+              interval: 100
+              repeat: true
+              onTriggered: pbar.value -= 10
+            }
+        }
     }
 
     function newtopic(raw, title, category){
