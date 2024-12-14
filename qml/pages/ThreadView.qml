@@ -180,6 +180,34 @@ Page {
 
         var dialog = pageStack.push("NewPost.qml", {postid: postid, loggedin: loggedin.value});
     }
+    function editTitle(postid, aTitle){
+        var dialog = pageStack.push(titleEditDlg, {topicid: topicid, title: aTitle});
+    }
+    function newtitle(title, topicid) {
+        var xhr = new XMLHttpRequest;
+        const json = {
+            "topic_id": topicid,
+            "title": title
+        };
+        console.warn(JSON.stringify(json));
+        xhr.open("PUT", "https://forum.sailfishos.org/t/" + topicid + ".json");
+        //xhr.setRequestHeader("User-Api-Key", loggedin.value);
+        xhr.setRequestHeader("User-Api-Key", loggedin.value);
+        xhr.setRequestHeader("Content-Type", 'application/json');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE){
+                if(xhr.statusText !== "OK"){
+                    pageStack.completeAnimation();
+                    pageStack.push("Error.qml", {errortext: xhr.responseText});
+                } else {
+                    console.warn(xhr.responseText);
+                    //list.model.clear();
+                    //commentpage.getcomments();
+                }
+            }
+        }
+        xhr.send(JSON.stringify(json));
+    }
     function reply(raw, topicid){
         var xhr = new XMLHttpRequest;
         const json = {
@@ -752,6 +780,11 @@ Page {
                     onClicked: newedit(postid);
                 }
                 MenuItem {
+                    visible: loggedin.value != "-1"  && topicid && can_edit && currentModel !== replyModel
+                    text: qsTr("Edit Title")
+                    onClicked: editTitle(topicid, aTitle);
+                }
+                MenuItem {
                     visible: loggedin.value != "-1"  && yours && can_delete && currentModel !== replyModel
                     text: qsTr("Delete")
                     onClicked: del(postid, index);
@@ -796,6 +829,30 @@ Page {
             }
 
 
+        }
+    }
+    Component { id: titleEditDlg
+        Dialog {
+            allowedOrientations: Orientation.All
+            property string topicid
+            property string title
+            canAccept: ttitle.text.length >14
+            SilicaFlickable {
+                id: flick
+                anchors.fill: parent
+                DialogHeader { id: pageHeader
+                    acceptText: qsTr("Edit")
+                }
+                TextField {
+                    id: ttitle
+                    width: parent.width
+                    anchors.top: pageHeader.bottom
+                    placeholderText: qsTr("Title");
+                    text: title
+                    EnterKey.onClicked: focus = false
+                }
+            }
+            onAccepted: newtitle(ttitle.text, topicid)
         }
     }
 }
