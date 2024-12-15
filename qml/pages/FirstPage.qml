@@ -530,7 +530,7 @@ Page {
 
                         Label {
                             id: postsLabel
-                            text: posts_count
+                            text: posts_count - 1 // The original post counts as 1
                             minimumPixelSize: Theme.fontSizeTiny
                             fontSizeMode: "Fit"
                             font.pixelSize: Theme.fontSizeSmall

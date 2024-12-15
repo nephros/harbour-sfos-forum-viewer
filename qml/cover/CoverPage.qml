@@ -66,7 +66,7 @@ CoverBackground {
                     Label {
                         anchors.centerIn: parent
                         width: 0.9*parent.width; height: 0.9*parent.height
-                        text: posts_count
+                        text: posts_count - 1 // The original post counts as 1
                         minimumPixelSize: 0.6*Theme.fontSizeTiny
                         fontSizeMode: Text.Fit
                         font.pixelSize: Theme.fontSizeTiny
