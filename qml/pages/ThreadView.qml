@@ -313,6 +313,15 @@ Page {
                 cooked_hidden = post.cooked_hidden ? post.cooked_hidden : false
                 spam = (filterlist.value(post.user_id, -1)  < 0) ? false : true
             }
+            // when a topic is locked, the last post is empty.
+            // lets supply some text instead:
+            if ((post.cooked === "") && (post.post_type == 3)) { // type 3 = "small action"
+                if (post.action_code == "closed.enabled") {
+                    post.cooked = qsTr("(locked this topic)")
+                } else if (post.action_code == "closed.disabled") {
+                    post.cooked = qsTr("(unlocked this topic)")
+                }
+            }
             list.model.append({
                                   cooked: post.cooked,
                                   username: post.username,
@@ -334,6 +343,7 @@ Page {
                                   last_postid: last_post,
                                   cooked_hidden: cooked_hidden,
                                   accepted_answer: post.accepted_answer,
+                                  post_type: post.post_type, // regular, admin, small action, whisper
                                   stafftag: stafftag,
                                   has_polls: has_polls,
                                   polldata: polldata
@@ -572,10 +582,14 @@ Page {
                 }
 
                 Label {
+                    property bool dim: (post_type >= 3)
+                    font.italic: dim
                     text: "<style>" +
                           "a { color: %1 }".arg(Theme.highlightColor) +
+                          "font-style: %1".arg(dim ? "italic": "normal") +
                           "</style>" +
                           "<p>" + cooked + "</p>"
+                    color: dim ? Theme.secondaryColor : Theme.primaryColor
                     width: parent.width
                     baseUrl: application.source
                     textFormat: Text.RichText

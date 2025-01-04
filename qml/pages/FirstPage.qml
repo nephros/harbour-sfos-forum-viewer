@@ -170,6 +170,7 @@ Page {
                                           user_id: spammerop,
                                           has_accepted_answer: topic.has_accepted_answer,
                                           highest_post_number: topic.highest_post_number,
+                                          is_locked: topic.closed,
                                           notification_level: topic.notification_level !== undefined ? topic.notification_level : 1
                                       });
                     //console.log(topic.posters[0].user_id)
@@ -558,17 +559,18 @@ Page {
                         }
 
                         Icon {
-                            //visible: has_accepted_answer
-                            //source: "image://theme/icon-s-accept"
                             visible: source != ""
+                            // prefer answered, then locked, else notificationlevel if any
                             source: has_accepted_answer
-                                        ? "image://theme/icon-s-accept?" + Theme.highlightFromColor(Theme.presenceColor(Theme.PresenceAvailable), Theme.colorScheme )
-                                        : ((notification_level >= 0 && loggedin.value !== "-1")
-                                            ? watchlevel[notification_level].smallicon
-                                            : "")
+                                ? "image://theme/icon-s-accept?" + Theme.highlightFromColor(Theme.presenceColor(Theme.PresenceAvailable), Theme.colorScheme )
+                                : is_locked
+                                    ? "image://theme/icon-s-outline-secure"
+                                    : ((notification_level >= 0 && loggedin.value !== "-1")
+                                        ? watchlevel[notification_level].smallicon
+                                        : "")
                             width: Theme.iconSizeSmall
                             height: width
-                            opacity: has_accepted_answer ? Theme.opacityLow : 1.0
+                            opacity: (is_locked || has_accepted_answer) ? Theme.opacityLow : 1.0
                         }
                     }
 
