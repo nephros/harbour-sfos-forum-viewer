@@ -127,6 +127,10 @@ ApplicationWindow
     }
 
     function formatJsonDate(date) {
+        // allow English translation to use non-US format
+        if (Qt.locale() == Qt.locale("en_US")) {
+            return new Date(date).toLocaleString(Qt.locale());
+        }
         return new Date(date).toLocaleString(Qt.locale(), dateTimeFormat);
     }
 

@@ -532,7 +532,7 @@ Special thanks to contributors:
     <message>
         <source>d/M/yyyy &apos;(&apos;hh&apos;:&apos;mm&apos;)&apos;</source>
         <extracomment>date format including date and time but no weekday</extracomment>
-        <translation>d/M/yyyy &apos;(&apos;hh&apos;:&apos;mm&apos;)&apos;</translation>
+        <translation>d.M.yyyy &apos;(&apos;hh&apos;:&apos;mm AP&apos;)&apos;</translation>
     </message>
 </context>
 </TS>
