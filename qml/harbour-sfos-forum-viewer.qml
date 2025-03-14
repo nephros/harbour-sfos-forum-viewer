@@ -187,6 +187,29 @@ ApplicationWindow
 
         function openUrl(u) {
             console.log("openUrl called via DBus:" + u)
+            if (!u.startsWith(application.source)) {
+                console.log("Not a FSO link:" + u)
+                return
+            }
+            var urlfrags = u.split("/")
+            var uri = u.splice(0, 3)
+            var tid
+            switch (urlfrags[3]) {
+              case "t":
+             // fall through
+             // case "topic":
+                var link1= /^https:\/\/forum.sailfishos.org\/t\/([\w-]*[a-z-]+[\w-]+\/)?(\d+)\/?(\d+)*/.exec(u)
+                pageStack.push("ThreadView.qml",
+                  { "topicid": urlfrags[2], "post_number": 0 }
+                )
+              break
+              case "c": // fall through
+              //case "category":
+              break
+              case "u": // fall through
+              //case "user":
+              break
+            }
         }
         function newPost(topic, group, content) {
             console.log("newPost called via DBus:", topic, group, content)
