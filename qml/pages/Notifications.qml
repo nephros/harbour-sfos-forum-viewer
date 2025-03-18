@@ -115,13 +115,26 @@ Page {
                     var notifications = data2.notifications;
                     var notlen = notifications.length;
                     mainConfig.setValue("lastnot", notifications[0].id);
+                    // lsit of types see https://github.com/discourse/discourse/blob/32e8099258b138a82e2ba15cada8e5bc7bd550a8/app/models/notification.rb#L125
                     for (var i=0;i<notlen;i++) {
                         var notific = notifications[i];
-                        if (notific.notification_type == 16) {
+                        if (notific.notification_type == 16) { // "group_message_summary"
                             fancy_title = "You have " + notific.data.inbox_count + " messages in your " + notific.data.group_name + " mailbox"
                             list.model.append({type: notific.notification_type, notid: notific.id,
                                                   read: notific.read, bumped: notific.created_at, post_number: notific.post_number, topic_id: notific.topic_id, fancy_title: fancy_title, username: notific.data.username})
-                        } else if (notific.notification_type != 12){
+                        } else if (notific.notification_type == 29) { // chat mention
+                            fancy_title = notific.user_id  + " mentioned you in a chat."
+                            list.model.append({type: notific.notification_type, notid: notific.id,
+                                                   chat_message_id: notific.data.chat_message_id,
+                                                   chat_channel_id: notific.data.chat_channel_id,
+                                                   fancy_title: fancy_title, username: notific.data.user})
+                        } else if (notific.notification_type == 30) { // chat message
+                            fancy_title = "You have " + notific.data.unread_count + " unread chat messages."
+                            list.model.append({type: notific.notification_type, notid: notific.id,
+                                                   chat_message_id: notific.data.chat_message_id,
+                                                   chat_channel_id: notific.data.chat_channel_id,
+                                                   fancy_title: fancy_title, username: notific.data.user})
+                        } else if (notific.notification_type != 12){ // "granted_badge"
                             fancy_title = notific.data.topic_title
                             var orig_name = notific.data.original_username
                             var disp_name = notific.data.display_username
