@@ -472,6 +472,7 @@ Page {
             visible: !spam
             contentHeight: !spam ? delegateCol.height + Theme.paddingLarge : 0
             anchors.horizontalCenter: parent.horizontalCenter
+            _showPress: false // prevent BackgroundItem flicker when trying to scroll
 
             Column {
                 id: delegateCol
