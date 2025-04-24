@@ -469,7 +469,7 @@ Page {
             property int postindex: index
             enabled: menu.hasContent
             width: parent.width
-            visible: !spam
+            visible: !spam // do not use the hidden property, its animation causes flicker
             contentHeight: !spam ? delegateCol.height + Theme.paddingLarge : 0
             anchors.horizontalCenter: parent.horizontalCenter
             _showPress: false // prevent BackgroundItem flicker when trying to scroll
