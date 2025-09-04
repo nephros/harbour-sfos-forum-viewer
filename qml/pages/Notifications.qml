@@ -315,7 +315,7 @@ Page {
             Column {
                 id: delegateCol
                 height: childrenRect.height
-                width: parent.width - 2*Theme.horizontalPageMargin
+                width: parent.width - Theme.horizontalPageMargin
                 spacing: Theme.paddingSmall
                 anchors {
                     verticalCenter: parent.verticalCenter
@@ -323,7 +323,9 @@ Page {
                 }
 
                 Row {
-                    width: parent.width
+                    anchors.left: parent.left
+                    anchors.leftMargin: Theme.horizontalPageMargin
+                    anchors.right: parent.right
                     spacing: 1.5*Theme.paddingMedium
 
                     Column {
