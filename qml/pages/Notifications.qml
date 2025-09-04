@@ -198,7 +198,7 @@ Page {
                     pageStack.completeAnimation();
                     pageStack.push("Error.qml", {errortext: xhr.responseText});
                 } else {
-getPMs();
+                    getPMs();
                 }
             }
         }
