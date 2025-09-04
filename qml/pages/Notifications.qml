@@ -18,6 +18,54 @@ Page {
     property bool networkError: false
     property bool loadedMore: false
 
+    // curl -L https://forum.sailfishos.org/site.json|jq .notification_types
+    readonly property var fancy_type: ({
+        "mentioned":                  qsTr("Mention"),
+        "replied":                    qsTr("Reply"),
+        "quoted":                     qsTr("Quote"),
+        "edited":                     qsTr("Edit"),
+        "liked":                      qsTr("Like"),
+        "private_message":            qsTr("PM"),
+        "invited_to_private_message": qsTr("PM Invite"),
+        "invitee_accepted":           qsTr("Accepted"),
+        "posted":                     qsTr("Post"),
+        "moved_post":                 qsTr("Moved"),
+        "linked":                     qsTr("Link"),
+        "granted_badge":              qsTr("Badge"), // not displayed
+        "invited_to_topic":           qsTr("Topic Invite"),
+        "custom":                     qsTr("Custom"),
+        "group_mentioned":            qsTr("Mention"),
+        "group_message_summary":      qsTr("Group Message"),
+        "watching_first_post":        qsTr("Watched"),
+        "topic_reminder":             qsTr("Reminder"),
+        "liked_consolidated":         qsTr("Consolidated"),
+        "post_approved":              qsTr("Approved"),
+        "code_review_commit_approved": qsTr("Approved"),
+        "membership_request_accepted": qsTr("Accepted"),
+        "membership_request_consolidated": qsTr("Consolidated"),
+        "bookmark_reminder":      qsTr("Reminder"),
+        "reaction":               qsTr("Reaction"),
+        "votes_released":         qsTr("Poll"),
+        "event_reminder":         qsTr("Reminder"),
+        "event_invitation":       qsTr("Event Invite"),
+        "chat_mention":           qsTr("Mention"),
+        "chat_message":           qsTr("Chat"),
+        "chat_invitation":        qsTr("Invite"),
+        "chat_group_mention":     qsTr("Mention"),
+        "chat_quoted":            qsTr("Quote"),
+        "assigned":               qsTr("Assigned"),
+        "question_answer_user_commented": qsTr("Q&A Comment") ,
+        "watching_category_or_tag": qsTr("Watched"),
+        "new_features":           qsTr("Feature"),
+        "admin_problems":         qsTr("Admin"),
+        "linked_consolidated":    qsTr("Consolidated"),
+        "chat_watched_thread":    qsTr("Watched"),
+        "following":              qsTr("Following"),
+        "following_created_topic": qsTr("Following"),
+        "following_replied":      qsTr("Reply"),
+        "circles_activity":       qsTr("Circles") 
+    })
+
     function updateView() {
         var xhr = new XMLHttpRequest;
         xhr.open("GET", combined);
@@ -282,7 +330,7 @@ getPMs();
                         width: parent.width - parent.spacing
 
                         Label {
-                            text: !pMs ? username + " - " + Object.keys(notif)[type - 1] + " - " + fancy_title : username + " - " + fancy_title
+                            text: username + " - " + fancy_title
                             width: parent.width
                             textFormat: Text.RichText
                             wrapMode: Text.Wrap
@@ -299,9 +347,19 @@ getPMs();
                                 text: formatJsonDate(bumped)
                                 wrapMode: Text.Wrap
                                 elide: Text.ElideRight
-                                color: read ? Theme.primaryColor : Theme.highlightColor
+                                color: read ? Theme.secondaryColor : Theme.secondaryHighlightColor
                                 font.pixelSize: Theme.fontSizeSmall
                                 horizontalAlignment: Text.AlignLeft
+                            }
+                            Label {
+                                visible: !pMs
+                                text: fancy_type[Object.keys(notif)[type - 1]]
+                                width: parent.width - (dateLabel.width + parent.spacing)
+                                textFormat: Text.RichText
+                                wrapMode: Text.Wrap
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: read ? Theme.secondaryColor : Theme.secondaryHighlightColor
+                                horizontalAlignment: Text.AlignRight
                             }
 
                         }
@@ -321,3 +379,4 @@ getPMs();
         }
     }
 }
+
