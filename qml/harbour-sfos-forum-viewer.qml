@@ -130,6 +130,25 @@ ApplicationWindow
         return new Date(date).toLocaleString(Qt.locale(), dateTimeFormat);
     }
 
+    function dismissUnread() {
+        var xhr = new XMLHttpRequest;
+        xhr.open("PUT", source + "topics/bulk?filter=unseen"
+            + "&operation%5Btype%5D=dismiss_posts&tracked=false&include_subcategories=true")
+        if (loggedin.value && (loggedin.value != -1)) xhr.setRequestHeader("User-Api-Key", loggedin.value);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.responseText !== "") {
+                    console.debug("response:", xhr.responseText);
+                    var data = JSON.parse(xhr.responseText);
+                    const cnt = data["topic_ids"].length
+                    console.info("Dismissed", data["topic_ids"].length, "topics")
+                    if (cnt > 0) application.reload()
+                }
+            }
+        }
+        xhr.send();
+    }
+
     function fetchLatestPosts() {
         application.latest.clear()
         fetching = true

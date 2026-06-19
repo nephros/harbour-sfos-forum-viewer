@@ -791,6 +791,11 @@ Page {
             id: pupmenu
             visible: pageno != 0;
             MenuItem {
+                visible: (loggedin.value !== "-1" && loggedin.value)
+                text: qsTr("Mark all read")
+                onClicked: application.dismissUnread()
+            }
+            MenuItem {
                 text: qsTr("Load more")
                 onClicked: {
                     pupmenu.close();
