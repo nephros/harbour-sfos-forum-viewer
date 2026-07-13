@@ -50,9 +50,9 @@ Page {
     property int last_post: 0
     property int posts_count
     property bool tclosed
+    property string stafftag: ""
     property string tags
     property string avatar
-    property bool cooked_hidden: false
     property bool acted
     property bool can_act
     property bool can_undo
@@ -209,6 +209,10 @@ Page {
         }
         xhr.send(JSON.stringify(json));
     }
+    function refresh(){
+        list.model.clear();
+        commentpage.getcomments();
+    }
     function del(postid, index){
         var xhr = new XMLHttpRequest;
         xhr.open("DELETE", "https://forum.sailfishos.org/posts/" + postid);
@@ -269,6 +273,34 @@ Page {
         for (var i=0;i<posts_length;i++) {
             var post = posts[i];
             var yours =  (loggedin.value == "-1") ? false : post.yours
+            var spam = false
+            var cooked_hidden = false
+            if (post.staff){
+                stafftag = " - Jolla"
+            } else {
+                stafftag = ""
+            }
+            var has_polls = !!post.polls  ? post.polls.length : 0
+            var polldata = []
+
+                // reorganize the poll data into an array of objects, so we only
+                // have to result with the JSObject->ListModel conversion once:
+                // See also: Flow { id: pollsItem } below
+                for (var pi = 0; pi<has_polls; ++pi) {
+                    var pd = { "poll": {}, "votes": {} }
+                    pd["poll"] = post.polls[pi]
+                    // polls_vote is only in the data if the user has voted already
+                    if (!!post["polls_votes"]) {
+                        if (post.polls_votes[post.polls[pi].name]) {
+                            pd["votes"] = { "list": post.polls_votes[post.polls[pi].name] }
+                        }
+                        } else {
+                            pd["votes"] = { "list": [] }
+                        }
+                 //   }
+                    polldata.push(pd)
+                }
+
             if (post.actions_summary.length > 0){
                 var action = post.actions_summary[0];
                 likes = (loggedin.value == "-1") ? ((action && action.id === 2)
@@ -278,8 +310,8 @@ Page {
                 can_undo = (loggedin.value == "-1") ? false : action && action.id === 2 && action.can_undo
                                                       ? action.can_undo : false
                 acted = loggedin.value !== "-1" ? (action.id === 2 && action.acted ? action.acted : false) : false;
-                post.cooked_hidden !== undefined ? cooked_hidden = post.cooked_hidden : cooked_hidden = false
-                var spam =( filterlist.value(post.user_id, -1)  < 0) ? false : true
+                cooked_hidden = post.cooked_hidden ? post.cooked_hidden : false
+                spam = (filterlist.value(post.user_id, -1)  < 0) ? false : true
             }
             list.model.append({
                                   cooked: post.cooked,
@@ -301,7 +333,10 @@ Page {
                                   reply_to: post.reply_to_post_number,
                                   last_postid: last_post,
                                   cooked_hidden: cooked_hidden,
-                                  accepted_answer: post.accepted_answer
+                                  accepted_answer: post.accepted_answer,
+                                  stafftag: stafftag,
+                                  has_polls: has_polls,
+                                  polldata: polldata
                               });
             last_post = post.post_number;
         }
@@ -431,6 +466,7 @@ Page {
 
         model: ListModel { id: commodel}
         delegate: ListItem {
+            property int postindex: index
             enabled: menu.hasContent
             width: parent.width
             visible: !spam
@@ -484,7 +520,7 @@ Page {
                             id: mainMetadata
                             text: loggedin.value != "-1" ? "<style>" +
                                                            "a { color: %1 }".arg(Theme.highlightColor) +
-                                                           "</style>" + "<a href=\"https://forum.sailfishos.org/u/\"" + username + "/card.json\">" + username + "</a>" : username
+                                                           "</style>" + "<a href=\"https://forum.sailfishos.org/u/\"" + username + "/card.json\">" + username + stafftag + "</a>" : username + stafftag
                             onLinkActivated: pageStack.push("UserCard.qml", {username: username, loggedin: loggedin.value});
                             textFormat: Text.RichText
                             truncationMode: TruncationMode.Fade
@@ -550,10 +586,46 @@ Page {
                         if (!link1 && /^https:\/\/forum.sailfishos.org\/t\/[\w-]+?\/?/.exec(link)){
                             getRedirect(link);
                         } else if ( !link1){
+                            if (link.indexOf("/") === 0)
+                                link = "https://forum.sailfishos.org" + link
                             pageStack.push("OpenLink.qml", {link: link});
 
                         }  else {
-                            pageStack.push("ThreadView.qml", { "topicid": link1[2], "post_number": link1[3] });
+                            var post_number = link1[3] ? link1[3] : -1
+                            pageStack.push("ThreadView.qml", { "topicid": link1[2], "post_number": post_number });
+                        }
+                    }
+                }
+                Flow { id: pollsItem
+                    visible: has_polls
+                    property int cols: 3
+                    width: parent.width
+                    Label { id: pollHeader
+                        width: parent.width
+                        text: (has_polls > 1 )
+                            ? qsTr("This post contains polls.")
+                            : qsTr("This post contains a poll.")
+                            + " " + qsTr("Click to view and vote:")
+                        font.pixelSize: Theme.fontSizeSmall
+                        color: Theme.highlightColor
+                    }
+                    Repeater {
+                        model: has_polls
+                        delegate: ValueButton { id: pollButt
+                            property int pollindex: index
+                            onClicked: {
+                                const pd = polldata.get(pollindex)
+                                console.debug("Opening poll no", pollindex, "for post", postid, ", data:", JSON.stringify(pd,null,2))
+                                pageStack.push("PollView.qml",
+                                    { "key": loggedin.value, "postid": postid,
+                                      "polldata": pd["poll"],
+                                      "submitted_votes": pd["votes"]["list"]
+                                    }
+                                );
+                            }
+                            label: qsTr("Poll")
+                            value: '#' + Number(pollindex + 1)
+                            width: Math.floor(pollsItem.width/pollsItem.cols)
                         }
                     }
                 }
