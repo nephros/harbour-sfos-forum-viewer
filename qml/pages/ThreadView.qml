@@ -64,7 +64,44 @@ Page {
     property variant currentModel: commodel
     property int replyindex
     property bool spam: false
+    property bool hasReachedTheEnd: false
 
+    onStatusChanged: {
+        if (commentpage.status === PageStatus.Deactivating) {
+            maybeMarkAsRead()
+        }
+    }
+    function maybeMarkAsRead() {
+        if (loggedin.value == "-1") return
+        if (last_post == 0) return
+        if (hasReachedTheEnd) return
+        // See: https://meta.discourse.org/t/mark-posts-in-topic-as-read/394852
+        var timings = []
+        for (var i=0;  i < posts_count ; i++) {
+            timings[i] = posts_count * 60000
+        }
+        var payload = {
+                "topic_id": topicid,
+                "topic_time": posts_count * 60000,
+                "timings": timings
+        }
+        var xhr5 = new XMLHttpRequest;
+        xhr5.open("POST", "https://forum.sailfishos.org/topics/timings");
+        xhr5.setRequestHeader("User-Api-Key", loggedin.value);
+        xhr5.onreadystatechange = function() {
+            if (xhr5.readyState === XMLHttpRequest.DONE){
+                if(xhr5.statusText !== "OK"){
+                    //console.warn("Trying to mark read: FAILED");
+                    pageStack.completeAnimation();
+                    pageStack.push("Error.qml", {errortitle: xhr5.status + " " + xhr5.statusText, errortext: xhr5.responseText});
+                } else {
+                    // actually AFAICS it always returns 200 OK:
+                    console.debug("Marked topic",  topicid, "as read.");
+                }
+            }
+        }
+        xhr5.send(payload);
+    }
     function remspam(user_id, username){
         remorsePopup.execute(
                     //   firstPage,
@@ -541,7 +578,13 @@ Page {
             visible: !spam
             contentHeight: !spam ? delegateCol.height + Theme.paddingLarge : 0
             anchors.horizontalCenter: parent.horizontalCenter
-
+            onVisibleChanged: {
+                if (visible) {
+                    if (index == list.count - 1) {
+                        commentpage.hasReachedTheEnd = true
+                    }
+                }
+            }
             Column {
                 id: delegateCol
                 width: parent.width - 2*Theme.horizontalPageMargin
