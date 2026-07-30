@@ -76,11 +76,6 @@ Dialog {
             }
             xhr.send();
     }
-
-            ConfigurationGroup {
-            id: mainConfig
-            path: "/apps/harbour-sfos-forum-viewer"
-        }
     function findFirstPage() {
         return pageStack.find(function(page) { return page.hasOwnProperty('loadmore'); });
     }
@@ -117,6 +112,12 @@ Dialog {
             findFirstPage().edit(postbody.text, postid);
         }
     }
+
+    ConfigurationGroup {
+        id: mainConfig
+        path: "/apps/harbour-sfos-forum-viewer"
+    }
+
     SilicaFlickable{
         id: flick
         anchors.fill: parent
