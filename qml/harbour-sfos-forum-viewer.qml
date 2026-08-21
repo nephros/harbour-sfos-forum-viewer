@@ -98,7 +98,7 @@ ApplicationWindow
                          * }
                          */
                         if ( data.current_user.all_unread_notifications_count
-                        < ( sessionData.notifications + sessionData.prio_notifications + sessionData.pm_notifications))
+                           < ( sessionData.notifications + sessionData.prio_notifications + sessionData.pm_notifications))
                         {
                             application.notificationCountChanged()
                         }

@@ -256,6 +256,7 @@ Page {
     }
 
     function checknotifications(){
+        application.sessionData.fetch()
         var xhr2 = new XMLHttpRequest;
         xhr2.open("GET", combined2);
         xhr2.setRequestHeader("User-Api-Key", loggedin.value);
@@ -466,7 +467,7 @@ Page {
 
         PullDownMenu {
             id: pulley
-            busy: application.fetching
+            busy: application.fetching || application.sessionData.prio_notifications > 0
 
             MenuItem {
                 text: qsTr("About")
@@ -517,6 +518,10 @@ Page {
                     application.fetchLatestPosts()
 
                 }
+            }
+            MenuLabel {
+                text: qsTr("You have new notifications.")
+                visible: application.sessionData.notifications > 0
             }
         }
 
