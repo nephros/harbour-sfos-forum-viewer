@@ -62,6 +62,66 @@ ApplicationWindow
         key: "/apps/harbour-sfos-forum-viewer/key"
     }
 
+    signal notificationCountChanged()
+    property QtObject sessionData: QtObject {
+        // unread:
+        property int notifications: 0
+        property int prio_notifications: 0
+        property int pm_notifications: 0
+        property bool admin: false
+        property bool moderator: false
+        property bool staff: false
+        property bool whisperer: false
+        property string title: ""
+        property int trust_level: 0
+
+
+        function fetch() {
+            if (loggedin.value && (loggedin.value == -1)) return;
+            fetching = true
+            var xhr = new XMLHttpRequest;
+            xhr.open("GET", source + "session/current.json")
+            if (loggedin.value && (loggedin.value != -1)) xhr.setRequestHeader("User-Api-Key", loggedin.value);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.responseText !== "") {
+                        var data = JSON.parse(xhr.responseText);
+                        /*
+                         * {
+                         *   "current_user": {
+                         *     "unread_notifications": 4,
+                         *     "unread_high_priority_notifications": 0,
+                         *     "all_unread_notifications_count": 4,
+                         *     ...
+                         *     "new_personal_messages_notifications_count": 0,
+                         *     }
+                         * }
+                         */
+                        if ( data.current_user.all_unread_notifications_count
+                        < ( sessionData.notifications + sessionData.prio_notifications + sessionData.pm_notifications))
+                        {
+                            application.notificationCountChanged()
+                        }
+
+                        sessionData.notifications       = data.current_user.unread_notifications;
+                        sessionData.prio_notifications  = data.current_user.unread_high_priority_notifications;
+                        sessionData.pm_notifications    = data.current_user.new_personal_messages_notifications_count;
+
+                        sessionData.admin               = data.current_user.admin
+                        sessionData.moderator           = data.current_user.moderator
+                        sessionData.staff               = data.current_user.staff
+                        sessionData.whisperer           = data.current_user.whisperer
+                        sessionData.title               = data.current_user.title
+                        sessionData.trust_level         = data.current_user.trust_level
+
+                    }
+
+                    fetching = false
+                }
+            }
+            xhr.send();
+        }
+    }
     property QtObject categories: QtObject {
         property bool networkError: false
         property var model: ListModel { id: categoriesModel }
@@ -169,5 +229,6 @@ var lastread = topic.last_read_post_number ?  topic.last_read_post_number : 0
         //console.log(checkem.value, loggedin.value)
         categories.fetch();
         fetchLatestPosts();
+        sessionData.fetch();
     }
 }
