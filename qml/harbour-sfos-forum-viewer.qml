@@ -114,6 +114,12 @@ ApplicationWindow
                         sessionData.title               = data.current_user.title
                         sessionData.trust_level         = data.current_user.trust_level
 
+                        console.debug("Notifications:\n",
+                            "Normal:", sessionData.notifications, "\n",
+                            "Prio:",   sessionData.prio_notifications "\n",
+                            "PM:",     sessionData.pm_notifications, "\n",
+                        )
+
                     }
 
                     fetching = false
