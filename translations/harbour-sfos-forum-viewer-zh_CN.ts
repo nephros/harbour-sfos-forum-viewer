@@ -274,7 +274,7 @@ Special thanks to contributors:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You cannot create threads this categury</source>
+        <source>You cannot create threads this category</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -582,6 +582,10 @@ Special thanks to contributors:
     <message>
         <source>Search</source>
         <translation>搜索</translation>
+    </message>
+    <message>
+        <source>Search in category</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

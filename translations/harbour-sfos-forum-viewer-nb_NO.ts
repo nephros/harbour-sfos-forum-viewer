@@ -277,7 +277,7 @@ En spesiell takk til bidragsytere:
         <translation>Bokmerk</translation>
     </message>
     <message>
-        <source>You cannot create threads this categury</source>
+        <source>You cannot create threads this category</source>
         <translation>Du kan ikke opprette tråder i denne kategorien</translation>
     </message>
 </context>
@@ -585,6 +585,10 @@ En spesiell takk til bidragsytere:
     <message>
         <source>Search</source>
         <translation>Søk</translation>
+    </message>
+    <message>
+        <source>Search in category</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

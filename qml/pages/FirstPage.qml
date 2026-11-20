@@ -526,7 +526,7 @@ Page {
             }
             MenuLabel {
                 visible: new_topic_allowed == "NO-POSTS-ALLOWED" && loggedin.value != "-1" && tid
-                text: qsTr("You cannot create threads this categury")
+                text: qsTr("You cannot create threads this category")
             }
         }
 

@@ -277,7 +277,7 @@ Veel dank aan de bijdragers:
         <translation>Bladwijzer toevoegen</translation>
     </message>
     <message>
-        <source>You cannot create threads this categury</source>
+        <source>You cannot create threads this category</source>
         <translation>In deze categorie kunde geên topics aanmaken</translation>
     </message>
 </context>
@@ -586,6 +586,10 @@ Veel dank aan de bijdragers:
     <message>
         <source>Search</source>
         <translation>Zoeken</translation>
+    </message>
+    <message>
+        <source>Search in category</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

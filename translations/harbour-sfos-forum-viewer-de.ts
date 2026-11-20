@@ -277,7 +277,7 @@ Vielen Dank an die Mitwirkenden:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You cannot create threads this categury</source>
+        <source>You cannot create threads this category</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -585,6 +585,10 @@ Vielen Dank an die Mitwirkenden:
     <message>
         <source>Search</source>
         <translation>Suchen</translation>
+    </message>
+    <message>
+        <source>Search in category</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

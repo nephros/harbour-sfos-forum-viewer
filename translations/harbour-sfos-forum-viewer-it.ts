@@ -5,7 +5,7 @@
     <name>About</name>
     <message>
         <source>About</source>
-        <translation>A proposito di</translation>
+        <translation>Info</translation>
     </message>
     <message>
         <source>, </source>
@@ -277,8 +277,8 @@ Un grazie speciale ai contributori:
         <translation>Segnalibro</translation>
     </message>
     <message>
-        <source>You cannot create threads this categury</source>
-        <translation type="unfinished"></translation>
+        <source>You cannot create threads this category</source>
+        <translation>Non puoi creare discussioni in questa categoria</translation>
     </message>
 </context>
 <context>
@@ -587,6 +587,10 @@ Un grazie speciale ai contributori:
         <source>Search</source>
         <translation>Cerca</translation>
     </message>
+    <message>
+        <source>Search in category</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ThreadView</name>
@@ -688,7 +692,7 @@ Un grazie speciale ai contributori:
     </message>
     <message>
         <source>Undelete</source>
-        <translation type="unfinished"></translation>
+        <translation>Ripristina</translation>
     </message>
 </context>
 <context>
