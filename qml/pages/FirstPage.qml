@@ -211,7 +211,11 @@ Page {
                         }
                     }
                     var spammerop = filterlist.value(topic.posters[0].user_id, -1) < 0 ? true : false;
-                    if (topic.tags) tags = topic.tags.join(" ");
+                    if (topic.tags && !!topic.tags[0].id) { // newer forum version, array of object: { "id": 0, "name": "", "slug": "" }
+                        tags = topic.tags.map(function(tag) { return tag.name; });
+                    } else { // old forum version, array of string
+                        tags = topic.tags.join(" ");
+                    }
                     var bookmarked = topic.bookmarked ? topic.bookmarked : false
                     var lastread = topic.last_read_post_number ?  topic.last_read_post_number : 0
                     loop2: for(var h=0;h<list.count;h++){
